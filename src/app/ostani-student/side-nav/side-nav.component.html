@@ -1,0 +1,12 @@
+<div class="d-flex" id="wrapper">
+  <div class="bg-light border-right" id="sidebar-wrapper"  [ngClass]="status ? 'hide' : 'show'">
+    <div class="sidebar-heading"><a id="sidebar-head" routerLink="/">Ostani student</a></div>
+    <div class="list-group list-group-flush">
+      <a routerLink="/korisnici" class="list-group-item list-group-item-action bg-light">Korisnici</a>
+      <a routerLink="/predmeti" class="list-group-item list-group-item-action bg-light">Predmeti</a>
+      <a routerLink="/moduli" class="list-group-item list-group-item-action bg-light">Moduli</a>
+      <a routerLink="/sifrarnik" class="list-group-item list-group-item-action bg-light">Šifrarnik</a>
+      <a routerLink="/uloge" class="list-group-item list-group-item-action bg-light">Uloge</a>
+    </div>
+  </div>
+</div>

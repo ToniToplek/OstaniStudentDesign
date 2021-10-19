@@ -1,0 +1,32 @@
+<div class="py-4 my-1">
+    <div class="row mb-5">
+      <div class="col-md-24">
+        <h1 class="mb-0 f-25 font-weight-bold">Moduli</h1>
+      </div>
+    </div>
+  
+    <div class="mx-n5">
+      <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="moduli" [showBorders]="false"
+        [rowAlternationEnabled]="true" [remoteOperations]="true">
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Pretraga..."></dxo-search-panel>
+  
+        <dxo-paging [enabled]="true"></dxo-paging>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+        </dxo-editing>
+  
+        <dxi-column dataField="naziv" caption="Naziv" dataType="string">
+        </dxi-column>
+  
+        <dxi-column caption="Akcije" type="buttons" [width]="'auto'" [hidingPriority]="5"
+          cellTemplate="acctionsCellTemplate"></dxi-column>
+  
+        <div *dxTemplate="let d of 'acctionsCellTemplate'">
+          <button class="btn btn-link btn-sm" >Uredi</button>
+          <span>&nbsp;</span>
+        </div>
+
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+  
+      </dx-data-grid>
+    </div>
+  </div>

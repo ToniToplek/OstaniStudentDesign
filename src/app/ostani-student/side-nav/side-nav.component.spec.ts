@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StayStudentAdminComponent } from './stay-student-admin.component';
+import { SideNavComponent } from './side-nav.component';
 
-describe('StayStudentAdminComponent', () => {
-  let component: StayStudentAdminComponent;
-  let fixture: ComponentFixture<StayStudentAdminComponent>;
+describe('SideNavComponent', () => {
+  let component: SideNavComponent;
+  let fixture: ComponentFixture<SideNavComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StayStudentAdminComponent ]
+      declarations: [ SideNavComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StayStudentAdminComponent);
+    fixture = TestBed.createComponent(SideNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,32 @@
+body {
+    font-family: "Lato", sans-serif;
+    transition: background-color .5s;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+#sidebar-wrapper{
+    width: 12%;
+}
+
+#wrapper{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#sidebar-head{
+    font-size: 24px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #495057
+}
+
+#sidebar-head:hover{
+    font-size: 24px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #337ab7
+}
