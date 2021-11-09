@@ -12,6 +12,7 @@ import { ModuliComponent } from './ostani-student/moduli/moduli.component';
 import { SifrarnikComponent } from './ostani-student/sifrarnik/sifrarnik.component';
 import { UlogeComponent } from './ostani-student/uloge/uloge.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     PredmetiComponent,
     ModuliComponent,
     SifrarnikComponent,
-    UlogeComponent
+    UlogeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

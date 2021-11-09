@@ -1,32 +1,86 @@
 <div class="py-4 my-1">
     <div class="row mb-5">
       <div class="col-md-24">
-        <h1 class="mb-0 f-25 font-weight-bold">Šifrarnik</h1>
+        <h1>Šifrarnik</h1>
       </div>
     </div>
   
     <div class="mx-n5">
       <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="sifrarnik" [showBorders]="false"
-        [rowAlternationEnabled]="true" [remoteOperations]="true">
+        [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
         <dxo-search-panel [visible]="true" [width]="240" placeholder="Pretraga..."></dxo-search-panel>
-  
+        <dxo-export [enabled]="true"></dxo-export>
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
         </dxo-editing>
   
-        <dxi-column dataField="naziv" caption="Naziv" dataType="string">
+        <dxi-column dataField="naziv" sortOrder="asc" caption="Naziv" dataType="string">
         </dxi-column>
 
         <dxi-column caption="Akcije" type="buttons" [width]="'auto'" [hidingPriority]="5"
-          cellTemplate="acctionsCellTemplate"></dxi-column>
+          cellTemplate="acctionsCellTemplate"  headerCellTemplate="addIconHeaderTemplate"></dxi-column>
   
         <div *dxTemplate="let d of 'acctionsCellTemplate'">
-          <button class="btn btn-link btn-sm" >Uredi</button>
+          <button class="btn bi bi-pencil-square" (click)="openSifrarnikModal(d.row.data)"></button>
           <span>&nbsp;</span>
+          <button class="btn bi bi-trash-fill text-danger" (click)="openConfirmModal(d.row.data)"></button>
+        </div>
+
+        <div *dxTemplate="let info of 'addIconHeaderTemplate'">
+          <div style="text-align: center; font-size: 17px; color: #337ab7" (click)="resetSifrarnikItem(); sifrarnikModal.show(); ">
+              <i class="bi bi-plus-circle-fill"></i>
+          </div>
         </div>
 
         <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
   
       </dx-data-grid>
     </div>
+</div>
+
+<div bsModal #sifrarnikModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Dodavanje sifrarnika</h4>         
+        </div>
+        <div class="modal-body">
+            <div class="card-body">
+              <form>
+                <div class="form-row">
+                  <label for="naziv">Naziv</label>
+                  <dx-text-box required
+                              name="naziv"
+                              [(value)]="sifrarnikItem.naziv">
+                  </dx-text-box>
+                  <div class="invalid-feedback">
+                      Obavezan unos.
+                  </div>
+                </div>
+              </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-neutral" (click)="getSifrarnik(); sifrarnikModal.hide()">Zatvori</button>
+          <button type="button" class="btn btn-primary" (click)="saveSifrarnikItem()">Spremi</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div bsModal #confirmModal="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Brisanje</h5>
+      </div>
+      <div class="modal-body">
+        <p>Jeste li sigurni da želite obrisati sifrarnik {{selectedSifrarnikItem.naziv}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-neutral" (click)="confirmModal.hide()">Odustani</button>
+        <button type="button" class="btn btn-primary" (click)="confirmModal.hide(); removeSifrarnikItem(selectedSifrarnikItem)">Potvrdi</button>
+      </div>
+    </div>
   </div>
+</div>

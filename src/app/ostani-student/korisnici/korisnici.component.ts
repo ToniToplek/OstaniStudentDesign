@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BsModalService, ModalDirective } from 'ngx-bootstrap/modal';
 import { Korisnici } from 'src/app/models/korisnici.model';
 import { StayStudentService } from 'src/app/service/stay-student.service';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { Workbook } from 'exceljs';
+import saveAs from 'file-saver';
 
 @Component({
   selector: 'app-korisnici',
@@ -10,8 +13,16 @@ import { StayStudentService } from 'src/app/service/stay-student.service';
 })
 export class KorisniciComponent implements OnInit {
 
+  @ViewChild('userModal', { static: false })
+  userModal: ModalDirective;
+
+  @ViewChild('confirmModal', { static: false })
+  confirmModal: ModalDirective;
+
   blukId: string = "";
   korisnici: Korisnici[] = [];
+  korisnik: Korisnici = new Korisnici;
+  selectedUser: Korisnici = new Korisnici;
 
   constructor(
     private service: StayStudentService,
@@ -19,40 +30,67 @@ export class KorisniciComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getUsers();
+  }
+
+  getUsers(){
     this.service.getUsersList(this.blukId).then(data => {
       this.korisnici = data;
     });
   }
 
-    /*onSubmitModalClick(e){
-    const initialState = {} as any;
-    const savedEmmitter = new EventEmitter<any>();
-    const subs = savedEmmitter.subscribe(() => {
-      subs?.unsubscribe();
-    });
-
-    initialState.model = item;
-    initialState.saved = savedEmmitter;
-    
-    const bsModalRef = this.modalService.show(TaxReportCheckComponent, { initialState, class: 'modal-dialog-centered modal-document' });
+  openUserModal(data: any){
+    this.korisnik = data;
+    this.userModal.show();
   }
-  */
-  removeKorisnik(row: any){
+
+  openConfirmModal(data: any){
+    this.selectedUser = data;
+    this.confirmModal.show();
+  }
+
+  resetKorisnik(){
+    this.korisnik = new Korisnici;
+  }
+
+  removeKorisnik(data: any){
     var index = this.korisnici.findIndex(value=>{
-      if(value && value.id == row.data.id){
+      if(value && value.id == data.id){
         return true;
       }
       return false;
     });
-
-    const data = this.korisnici[index];
     this.korisnici.splice(index,1);
+    this.service.deleteUser(data.id);
   }
 
-  addNewKorisnik(){
-    var newKorisnik = new Korisnici();
-    newKorisnik.id = this.korisnici.reduce((x, item) => x = x > item.id ? x : item.id+1, 0);
-    this.korisnici.push(newKorisnik);
+  saveUser(){
+    if(!this.korisnik.bulkId){
+      this.service.addUser(this.korisnik).then(data => {
+        this.userModal.hide();
+        this.getUsers();
+      });
+    }else{
+      this.service.updateUser(this.korisnik).then(data => {
+        this.userModal.hide();
+        this.getUsers();
+      });
+    }
+  }
+
+  onExporting(e) {
+    const workbook = new Workbook();    
+    const worksheet = workbook.addWorksheet('Main sheet');
+    exportDataGrid({
+        component: e.component,
+        worksheet: worksheet
+    }).then(function() {
+        workbook.xlsx.writeBuffer()
+            .then(function(buffer: BlobPart) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Korisnici.xlsx');
+            });
+    });
+    e.cancel = true; 
   }
 
 }

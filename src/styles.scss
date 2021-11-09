@@ -34,7 +34,54 @@ body {
 
   .bi-plus-circle-fill{
     text-align: center;
-    color: aqua;
+    color: #337ab7;
+  }
+
+  .btn{
+    font-weight: 400;
+    color: #337ab7;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    color: #333;
+  }
+
+  .btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+
+  .btn-primary:hover {
+    color: #333;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+
+  .btn-primary:disabled {
+    color: #333;
+    background-color: #577793;
+    border-color: #577793;
+  }
+
+  .btn-check:focus + .btn-primary, .btn-primary:focus {
+    color: #333;
+    background-color: #337ab7;
+    border-color: #337ab7;
+    
+  }
+  .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
+    color: #333;
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+  .btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .show > .btn-primary.dropdown-toggle:focus {
+    color: #333;
+  }
+
+  .dx-show-clear-button .dx-icon-clear {
+    color: #337ab7;
   }
 
   .DxGrid {
