@@ -1,16 +1,114 @@
-<div class="py-4 my-1">
-    <div class="row mb-5">
-      <div class="col-md-24">
-        <h1 class="mb-0 f-25 font-weight-bold">Ostani student</h1>
-      </div>
-    </div>
-    <div style="text-align: center;">
-      <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let predmet of predmets" cdkDrag>
-          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-          {{predmet.naziv}}
-        </div>
-      </div>
-    </div>
-
+<div class="row">
+  <div class="header py-3">
+    <h1 class="mb-0 f-25 font-weight-bold" style="color: #f8f9fa; text-align: center;">Ostani student</h1>
+  </div>
 </div>
+
+<div class="text-center col-md-24 row py-3" style="background-color: #173753; color: #f8f9fa;">
+  <h4>{{userData?.ime + " " + userData?.prezime + " (" + userData?.jmbag + ")"}}</h4>
+</div>
+
+<div *ngIf="!isModulSelected" class="text-center mt-4">
+  <div class="table">
+    <h3>Moduli</h3>
+    <div
+      id="allModuls"
+      cdkDropList
+      [cdkDropListData]="moduls"
+      cdkDropListConnectedTo="selectedModuls"
+      class="subject-list"
+      (cdkDropListDropped)="dropModul($event, true)">
+      <div
+        class="subject-box"
+        *ngFor="let modul of moduls"
+        [cdkDragData]="modul.id"
+        cdkDrag>
+        <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+        {{modul.naziv}}
+      </div>
+    </div>
+  </div>
+  <div class="table">
+    <h3>Razvrstaj module po odabiru</h3>
+    <div
+      id="selectedModuls"
+      cdkDropList
+      [cdkDropListData]="selectedModuls"
+      cdkDropListConnectedTo="allModuls"
+      class="subject-list"
+      (cdkDropListDropped)="dropModul($event, false)"
+      [cdkDropListEnterPredicate]="evenPredicate">
+      <div
+        class="subject-box"
+        *ngFor="let modul of selectedModuls; let i = index"
+        cdkDrag
+        [cdkDragData]="modul.id">
+        <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+        {{i+1+". " + modul.naziv}}
+      </div>
+    </div>
+  </div>
+  <div class="buttons">
+    <button type="button" class="btn btn-neutral" (click)="cancelModul()">Odustani</button>
+    <button [disabled]="modulsSubmitDisabled()" type="button" class="btn btn-primary" (click)="selectModuls()">Odaberi modul</button>
+  </div>
+</div>
+
+<div *ngIf="isModulSelected" class="text-center mt-4">
+  <h3>Obavezni predmeti za odabrani modul "{{selectedModul.naziv}}"</h3>
+  <div class="table mt-2">
+    <div class="subject-list" style="border-bottom: 0px;">
+      <div class="subject-box-required" *ngFor="let predmet of requiredSubjects">
+        {{predmet.naziv}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isModulSelected" class="text-center mt-5">
+  <div class="table">
+    <h3>Izborni predmeti</h3>
+    <div
+      id="allSubjects"
+      cdkDropList
+      [cdkDropListData]="predmets"
+      cdkDropListConnectedTo="selectedSubjects"
+      class="subject-list"
+      (cdkDropListDropped)="drop($event, true)">
+      <div
+        class="subject-box"
+        *ngFor="let predmet of predmets"
+        [cdkDragData]="predmet.id"
+        cdkDrag>
+        <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+        {{predmet.naziv}}
+      </div>
+    </div>
+  </div>
+  <div class="table">
+    <h3>Razvrstaj predmete po odabiru</h3>
+    <div
+      id="selectedSubjects"
+      cdkDropList
+      [cdkDropListData]="selectedSubjects"
+      cdkDropListConnectedTo="allSubjects"
+      class="subject-list"
+      (cdkDropListDropped)="drop($event, false)"
+      [cdkDropListEnterPredicate]="evenPredicate">
+      <div
+        class="subject-box"
+        *ngFor="let predmet of selectedSubjects; let i = index"
+        cdkDrag
+        [cdkDragData]="predmet.id">
+        <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+        {{i+1+". " + predmet.naziv}}
+      </div>
+    </div>
+  </div>
+  <div class="buttons mb-4">
+    <button type="button" class="btn btn-neutral" (click)="cancel()">Odustani</button>
+    <button type="button" class="btn btn-primary" (click)="save()">Potvrdi</button>
+  </div>
+</div>
+
+

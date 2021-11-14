@@ -5,7 +5,7 @@
       </div>
     </div>
   
-    <div class="mx-n5">
+    <div>
       <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="korisnici" [showBorders]="false"
         [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
         <dxo-search-panel [visible]="true" [width]="240" placeholder="Pretraga..."></dxo-search-panel>
@@ -36,7 +36,7 @@
         </div>
 
         <div *dxTemplate="let info of 'addIconHeaderTemplate'">
-          <div style="text-align: center; font-size: 17px; color: #337ab7" (click)="resetKorisnik(); userModal.show(); ">
+          <div style="text-align: center; font-size: 17px; color: #2064a0" (click)="resetKorisnik(); userModal.show(); ">
               <i class="bi bi-plus-circle-fill"></i>
           </div>
         </div>
@@ -56,7 +56,7 @@
         <div class="modal-body">
             <div class="card-body">
               <form>
-                <div class="form-row">
+                <div>
                     <label for="ime">Ime</label>
                     <dx-text-box required
                                 name="ime"
@@ -76,7 +76,7 @@
                     </div>
                 </div>
 
-                <div class="form-row">
+                <div>
                   <div class="form-group col-md-24">
                     <label for="email">Email</label>
                     <dx-text-box required
@@ -89,7 +89,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-row">
+                <div>
                   <div class="form-group col-md-24">
                     <label for="jmbag">JMBAG</label>
                     <dx-text-box required

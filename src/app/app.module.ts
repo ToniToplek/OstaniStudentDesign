@@ -13,6 +13,9 @@ import { SifrarnikComponent } from './ostani-student/sifrarnik/sifrarnik.compone
 import { UlogeComponent } from './ostani-student/uloge/uloge.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { LoginComponent } from './login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     DevExtremeModule,
     HttpClientModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BrowserAnimationsModule,
+    DragDropModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

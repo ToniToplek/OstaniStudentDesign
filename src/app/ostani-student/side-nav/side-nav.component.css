@@ -24,9 +24,13 @@ body {
     color: #495057
 }
 
+.bg-light{
+    color: #2064a0
+}
+
 #sidebar-head:hover{
     font-size: 24px;
     font-weight: 600;
     text-decoration: none;
-    color: #337ab7
+    color: #2064a0
 }
