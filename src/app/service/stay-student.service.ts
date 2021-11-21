@@ -43,6 +43,10 @@ export class StayStudentService{
     return this.httpClient.get(`${this.apiBaseUrl}api/Predmeti/getallpredmets`).toPromise();
   }
 
+  public getRequiredPredmetsList = (bulkId: string, isRequired: boolean, selectedModulId: number): Promise<any> => {
+    return this.httpClient.get(`${this.apiBaseUrl}api/Predmeti/getrequiredpredmets/${selectedModulId}?isRequired=${isRequired}`).toPromise();
+  }
+
   public addSubject = (predmet: Predmeti): Promise<any> => {
     return this.httpClient.post(`${this.apiBaseUrl}api/Predmeti/addpredmet`, predmet).toPromise();
   }

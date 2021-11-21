@@ -1,4 +1,4 @@
-import { CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { Korisnici } from 'src/app/models/korisnici.model';
 import { Moduli } from 'src/app/models/moduli.model';
@@ -17,11 +17,15 @@ export class StayStudentComponent implements OnInit {
   userData: Korisnici;
   predmets: Predmeti[];
   moduls: Moduli[];
-  selectedSubjects: Predmeti[] = [];
+  selectedSubjectsFirstChoice: Predmeti[] = [];
+  selectedSubjectsSecondChoice: Predmeti[] = [];
   selectedModuls: Moduli[] = [];
   selectedModul: Moduli;
   isModulSelected: boolean = false;
-  requiredSubjects: Predmeti[] = [];
+  isSubjectFirstChoiceVisible: boolean = false;
+  isSubjectSecondChoiceVisible: boolean = false;
+  requiredSubjectsFirstChoice: Predmeti[] = [];
+  requiredSubjectsSecondChoice: Predmeti[] = [];
 
   constructor(
     private service: StayStudentService,
@@ -32,14 +36,26 @@ export class StayStudentComponent implements OnInit {
     this.getModuls();
   }
 
-  getPredemts(){
-    this.service.getPredmetsList(this.blukId).then(data => {
+  getPredemtsFirstChoice(){
+    this.service.getRequiredPredmetsList(this.blukId, false, this.selectedModul.id).then(data => {
       this.predmets = data;
     });
   }
-  getRequiredPredemts(){
-    this.service.getPredmetsList(this.blukId).then(data => {
-      this.requiredSubjects = data;
+  getRequiredPredemtsFirstChoice(){
+    this.service.getRequiredPredmetsList(this.blukId, true, this.selectedModul.id).then(data => {
+      this.requiredSubjectsFirstChoice = data;
+    });
+  }
+
+  
+  getPredemtsSecondChoice(){
+    this.service.getRequiredPredmetsList(this.blukId, false, this.selectedModul.id).then(data => {
+      this.predmets = data;
+    });
+  }
+  getRequiredPredemtsSecondChoice(){
+    this.service.getRequiredPredmetsList(this.blukId, true, this.selectedModul.id).then(data => {
+      this.requiredSubjectsSecondChoice = data;
     });
   }
 
@@ -62,7 +78,7 @@ export class StayStudentComponent implements OnInit {
       if(bool){
         moveItemInArray(this.predmets, event.previousIndex, event.currentIndex);
       }else{
-        moveItemInArray(this.selectedSubjects, event.previousIndex, event.currentIndex);
+        moveItemInArray(this.selectedSubjectsFirstChoice, event.previousIndex, event.currentIndex);
       }
     } else {
       transferArrayItem(
@@ -93,18 +109,18 @@ export class StayStudentComponent implements OnInit {
     }
   }
 
-
-  evenPredicate() {
-    if(this.selectedSubjects == null ||  this.selectedSubjects.length < 3){
-      return true;
-    }
-    return false;
-  }
-
-  cancel(){
-    this.selectedSubjects = [];
+  cancelFirstChoice(){
+    this.selectedSubjectsFirstChoice = [];
     this.selectedModul = null;
     this.isModulSelected = false;
+    this.isSubjectFirstChoiceVisible = false;
+  }
+
+  cancelSecondChoice(){
+    this.selectedSubjectsSecondChoice = [];
+    this.selectedModul = this.selectedModuls[0];
+    this.isSubjectFirstChoiceVisible = true;
+    this.isSubjectSecondChoiceVisible = false;
   }
 
   cancelModul(){
@@ -115,11 +131,20 @@ export class StayStudentComponent implements OnInit {
   selectModuls(){
     this.selectedModul = this.selectedModuls[0];
     this.isModulSelected = true;
-    this.getPredemts();
-    this.getRequiredPredemts();
+    this.isSubjectFirstChoiceVisible = true;
+    this.getPredemtsFirstChoice();
+    this.getRequiredPredemtsFirstChoice();
   }
 
-  save(){
+  submitFirstChoice(){
+    this.selectedModul = this.selectedModuls[1];
+    this.isSubjectFirstChoiceVisible = false;
+    this.isSubjectSecondChoiceVisible = true;
+    this.getPredemtsSecondChoice();
+    this.getRequiredPredemtsSecondChoice();
+  }
+
+  submitSecondChoice(){
 
   }
 
