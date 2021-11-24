@@ -105,7 +105,7 @@
   </div>
   <div class="buttons mb-4">
     <button type="button" class="btn btn-neutral" (click)="cancelFirstChoice()">Odustani</button>
-    <button type="button" class="btn btn-primary" (click)="submitFirstChoice()">Potvrdi prvi izbor</button>
+    <button type="button" [disabled]="subjectSubmitDisabled()" class="btn btn-primary" (click)="submitFirstChoice()">Potvrdi prvi izbor</button>
   </div>
 </div>
 
@@ -161,7 +161,7 @@
   </div>
   <div class="buttons mb-4">
     <button type="button" class="btn btn-neutral" (click)="cancelSecondChoice()">Odustani</button>
-    <button type="button" class="btn btn-primary" (click)="submitSecondChoice()">Potvrdi drugi izbor</button>
+    <button type="button" [disabled]="subjectSubmitDisabled()" class="btn btn-primary" (click)="submitSecondChoice()">Potvrdi drugi izbor</button>
   </div>
 </div>
 

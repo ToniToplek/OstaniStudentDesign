@@ -4,6 +4,8 @@ import { Korisnici } from 'src/app/models/korisnici.model';
 import { Moduli } from 'src/app/models/moduli.model';
 import { Predmeti } from 'src/app/models/predmeti.model';
 import { StayStudentService } from 'src/app/service/stay-student.service';
+import { ToastrService } from 'ngx-toastr';
+import { OstaniStudentDto } from 'src/app/models/ostani-student-dto.model';
 
 
 @Component({
@@ -26,9 +28,11 @@ export class StayStudentComponent implements OnInit {
   isSubjectSecondChoiceVisible: boolean = false;
   requiredSubjectsFirstChoice: Predmeti[] = [];
   requiredSubjectsSecondChoice: Predmeti[] = [];
+  model: OstaniStudentDto[] = [];
 
   constructor(
     private service: StayStudentService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +51,6 @@ export class StayStudentComponent implements OnInit {
     });
   }
 
-  
   getPredemtsSecondChoice(){
     this.service.getRequiredPredmetsList(this.blukId, false, this.selectedModul.id).then(data => {
       this.predmets = data;
@@ -121,6 +124,7 @@ export class StayStudentComponent implements OnInit {
     this.selectedModul = this.selectedModuls[0];
     this.isSubjectFirstChoiceVisible = true;
     this.isSubjectSecondChoiceVisible = false;
+    this.predmets = [];
   }
 
   cancelModul(){
@@ -145,11 +149,47 @@ export class StayStudentComponent implements OnInit {
   }
 
   submitSecondChoice(){
+    //first choice
+    let i = 0;
+    this.selectedSubjectsFirstChoice.forEach(element => {
+      i++;
+      let choice = new OstaniStudentDto();
+      choice.IdKorisnik = this.userData.id;
+      choice.IdPredmet = element.id;
+      choice.IdModul = this.selectedModuls[0].id;
+      choice.Rang = 1;
+      choice.BrojIzbora = i;
+      this.model.push(choice);
+    });
+
+    //second choice
+    let j = 0;
+    this.selectedSubjectsSecondChoice.forEach(element => {
+      j++;
+      let choice = new OstaniStudentDto();
+      choice.IdKorisnik = this.userData.id;
+      choice.IdPredmet = element.id;
+      choice.IdModul = this.selectedModuls[1].id;
+      choice.Rang = 2;
+      choice.BrojIzbora = j;
+      this.model.push(choice);
+    });
+
+    this.service.saveStudentChoice(this.model).then(data =>{
+      this.toastr.success('Uspješno ste spremili svoj odabir!');
+    });
 
   }
 
   modulsSubmitDisabled(){
     if(this.moduls.length > 0){
+      return true;
+    }
+    return false;
+  }
+
+  subjectSubmitDisabled(){
+    if(this.predmets.length > 0){
       return true;
     }
     return false;

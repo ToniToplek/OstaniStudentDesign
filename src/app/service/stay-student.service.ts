@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Korisnici } from '../models/korisnici.model';
 import { Moduli } from '../models/moduli.model';
+import { OstaniStudentDto } from '../models/ostani-student-dto.model';
 import { Predmeti } from '../models/predmeti.model';
 import { Sifrarnik } from '../models/sifrarnik.model';
 import { Uloge } from '../models/uloge.model';
+import { VKorisniciUloge } from '../models/v-korisnici-uloge.model';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -25,17 +27,20 @@ export class StayStudentService{
     return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getuserbyid/${id}`).toPromise();
   }
 
-  public addUser = (korisnik: Korisnici): Promise<any> => {
-    korisnik.bulkId = null;
+  public addUser = (korisnik: VKorisniciUloge): Promise<any> => {
     return this.httpClient.post(`${this.apiBaseUrl}api/Korisnici/adduser`, korisnik).toPromise();
   }
 
-  public updateUser = (korisnik: Korisnici): Promise<any> => {
+  public updateUser = (korisnik: VKorisniciUloge): Promise<any> => {
     return this.httpClient.put(`${this.apiBaseUrl}api/Korisnici/updateuser`, korisnik).toPromise();
   }
 
   public deleteUser = (id: number): Promise<any> => {
     return this.httpClient.delete(`${this.apiBaseUrl}api/Korisnici/deleteuserbyid/${id}`).toPromise();
+  }
+
+  public saveStudentChoice = (model: OstaniStudentDto[]): Promise<any> => {
+    return this.httpClient.post(`${this.apiBaseUrl}api/Korisnici/addchoice`, model).toPromise();
   }
 
   //Predmeti

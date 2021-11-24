@@ -25,6 +25,9 @@
           
         <dxi-column dataField="jmbag" caption="JMBAG" dataType="string">
         </dxi-column>
+
+        <dxi-column dataField="naziv" caption="Uloga" dataType="string">
+        </dxi-column>
   
         <dxi-column caption="Akcije" type="buttons" [width]="'auto'" [hidingPriority]="5"
           cellTemplate="acctionsCellTemplate"  headerCellTemplate="addIconHeaderTemplate"></dxi-column>
@@ -96,6 +99,26 @@
                                 name="jmbag"
                                 [(value)]="korisnik.jmbag">
                     </dx-text-box>
+                    <div class="invalid-feedback">
+                        Obavezan unos.
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="form-group col-md-24">
+                    <label for="uloge">Uloga</label>
+                    <dx-select-box
+                      [dataSource]="uloge"
+                      [displayExpr]="'naziv'"
+                      valueExpr="id"
+                      [(value)]="korisnik.ulogaId"
+                      searchMode="contains"
+                      [searchTimeout]="50"
+                      [minSearchLength]="0"
+                      [showClearButton]="true"
+                      [searchEnabled]="true"
+                      placeholder="Odaberi...">
+                    </dx-select-box>
                     <div class="invalid-feedback">
                         Obavezan unos.
                     </div>

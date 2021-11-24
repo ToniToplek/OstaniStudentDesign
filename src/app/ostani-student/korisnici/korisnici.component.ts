@@ -5,6 +5,8 @@ import { StayStudentService } from 'src/app/service/stay-student.service';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
+import { Uloge } from 'src/app/models/uloge.model';
+import { VKorisniciUloge } from 'src/app/models/v-korisnici-uloge.model';
 
 @Component({
   selector: 'app-korisnici',
@@ -20,9 +22,10 @@ export class KorisniciComponent implements OnInit {
   confirmModal: ModalDirective;
 
   blukId: string = "";
-  korisnici: Korisnici[] = [];
-  korisnik: Korisnici = new Korisnici;
-  selectedUser: Korisnici = new Korisnici;
+  korisnici: VKorisniciUloge[] = [];
+  uloge: Uloge[] = [];
+  korisnik: VKorisniciUloge = new VKorisniciUloge;
+  selectedUser: VKorisniciUloge = new VKorisniciUloge;
 
   constructor(
     private service: StayStudentService,
@@ -31,11 +34,18 @@ export class KorisniciComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.getRoles();
   }
 
   getUsers(){
     this.service.getUsersList(this.blukId).then(data => {
       this.korisnici = data;
+    });
+  }
+
+  getRoles(){
+    this.service.getRoleList(this.blukId).then(data => {
+      this.uloge = data;
     });
   }
 
@@ -50,22 +60,22 @@ export class KorisniciComponent implements OnInit {
   }
 
   resetKorisnik(){
-    this.korisnik = new Korisnici;
+    this.korisnik = new VKorisniciUloge;
   }
 
   removeKorisnik(data: any){
     var index = this.korisnici.findIndex(value=>{
-      if(value && value.id == data.id){
+      if(value && value.korisnikId == data.korisnikId){
         return true;
       }
       return false;
     });
     this.korisnici.splice(index,1);
-    this.service.deleteUser(data.id);
+    this.service.deleteUser(data.korisnikId);
   }
 
   saveUser(){
-    if(!this.korisnik.bulkId){
+    if(!this.korisnik.korisnikId){
       this.service.addUser(this.korisnik).then(data => {
         this.userModal.hide();
         this.getUsers();
