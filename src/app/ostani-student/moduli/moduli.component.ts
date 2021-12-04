@@ -92,4 +92,11 @@ export class ModuliComponent implements OnInit {
     e.cancel = true; 
   }
 
+  isDisabled(){
+    if(!this.modul.naziv || !this.modul.kratica){
+      return true;
+    }
+    return false;
+  }
+
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { KorisniciZeljeniModuliDto } from '../models/korisnici-zeljeni-moduli-dto.model';
 import { Korisnici } from '../models/korisnici.model';
 import { Moduli } from '../models/moduli.model';
 import { OstaniStudentDto } from '../models/ostani-student-dto.model';
@@ -23,6 +24,14 @@ export class StayStudentService{
     return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getallusers`).toPromise();
   }
 
+  public getUserChoiceList = (bulkId: string): Promise<any> => {
+    return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getalluserschoice`).toPromise();
+  }
+
+  public getUserChoicePredmets = (korisnikId: number, odabir: number): Promise<any> => {
+    return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getalluserssubjectchoice/${odabir}/${korisnikId}`).toPromise();
+  }
+  
   public getUserDataById = (bulkId: string, id: number): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getuserbyid/${id}`).toPromise();
   }
@@ -37,6 +46,10 @@ export class StayStudentService{
 
   public deleteUser = (id: number): Promise<any> => {
     return this.httpClient.delete(`${this.apiBaseUrl}api/Korisnici/deleteuserbyid/${id}`).toPromise();
+  }
+
+  public deleteUserChoice = (id: number): Promise<any> => {
+    return this.httpClient.delete(`${this.apiBaseUrl}api/Korisnici/deleteuserchoicebyid/${id}`).toPromise();
   }
 
   public saveStudentChoice = (model: OstaniStudentDto[]): Promise<any> => {

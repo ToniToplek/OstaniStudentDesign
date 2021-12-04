@@ -1,7 +1,7 @@
 <div class="py-4 my-1">
     <div class="row mb-5">
       <div class="col-md-24">
-        <h1>Šifrarnik</h1>
+        <h1>Status predmeta</h1>
       </div>
     </div>
   
@@ -16,6 +16,13 @@
   
         <dxi-column dataField="naziv" sortOrder="asc" caption="Naziv" dataType="string">
         </dxi-column>
+          
+        <dxi-column cellTemplate="textTemplate" caption="Obavezan modul" dataType="string">
+        </dxi-column>
+
+        <div *dxTemplate="let d of 'textTemplate'">
+          {{getRequiredText(d.row.data)}}
+        </div>
 
         <dxi-column caption="Akcije" type="buttons" [width]="'auto'" [hidingPriority]="5"
           cellTemplate="acctionsCellTemplate"  headerCellTemplate="addIconHeaderTemplate"></dxi-column>
@@ -42,7 +49,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title pull-left">Dodavanje sifrarnika</h4>         
+          <h4 *ngIf="!sifrarnikItem.id" class="modal-title pull-left">Dodavanje statusa predmeta</h4>      
+          <h4 *ngIf="sifrarnikItem.id" class="modal-title pull-left">Uređivanje statusa predmeta</h4>       
         </div>
         <div class="modal-body">
             <div class="card-body">
@@ -62,7 +70,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-neutral" (click)="getSifrarnik(); sifrarnikModal.hide()">Zatvori</button>
-          <button type="button" class="btn btn-primary" (click)="saveSifrarnikItem()">Spremi</button>
+          <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="saveSifrarnikItem()">Spremi</button>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { PregledOdabiraComponent } from './ostani-student/pregled-odabira/pregled-odabira.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ToastrModule } from 'ngx-toastr';
     ModuliComponent,
     SifrarnikComponent,
     UlogeComponent,
-    LoginComponent
+    LoginComponent,
+    PregledOdabiraComponent,
   ],
   imports: [
     BrowserModule,

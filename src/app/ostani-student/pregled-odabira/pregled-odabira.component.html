@@ -1,0 +1,193 @@
+<div class="py-4 my-1">
+    <div class="row mb-5">
+      <div class="col-md-24">
+        <h1>Pregled odabira</h1>
+      </div>
+    </div>
+  
+    <div>
+      <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="korisnici" [showBorders]="false"
+        [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
+        <dxo-search-panel [visible]="true" [width]="240" placeholder="Pretraga..."></dxo-search-panel>
+        <dxo-export [enabled]="true"></dxo-export>
+        <dxo-paging [enabled]="true"></dxo-paging>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+        </dxo-editing>
+
+        <dxi-column dataField="ime" caption="Ime" dataType="string">
+        </dxi-column>
+
+        <dxi-column dataField="prezime" sortOrder="asc" caption="Prezime" dataType="string">
+        </dxi-column>
+  
+        <dxi-column dataField="prviIzbor" caption="Modul prvi izbor" dataType="string">
+        </dxi-column>
+          
+        <dxi-column dataField="drugiIzbor" caption="Modul drugi izbor" dataType="string">
+        </dxi-column>
+  
+        <dxi-column caption="Akcije" type="buttons" [width]="'auto'" [hidingPriority]="5"
+          cellTemplate="acctionsCellTemplate"></dxi-column>
+  
+        <div *dxTemplate="let d of 'acctionsCellTemplate'">
+          <button class="btn bi bi-clipboard-data" (click)="showFirstChoiceModal(d.row.data)"></button>
+          <span>&nbsp;</span>
+          <button class="btn bi bi-trash-fill text-danger" (click)="openConfirmModal(d.row.data)"></button>
+        </div>
+        <dxo-paging [pageSize]="8"> </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+  
+      </dx-data-grid>
+    </div>
+</div>
+
+<div bsModal #firstChoiceModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"> 
+          <h4 class="modal-title pull-left">Odabir studenta: {{korisnik.ime}} {{korisnik.prezime}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="card-body">
+              <form>
+                <h3 style="text-align: center;">Prvi izbor</h3>
+                <h4>Zimski semestar</h4>
+                <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="winter" [showBorders]="false"
+                    [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
+                    <dxo-paging [enabled]="true"></dxo-paging>
+                    <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+
+                    <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc" caption="Izbor" dataType="string">
+                    </dxi-column>
+            
+                    <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                    </dxi-column>
+
+                    <div *dxTemplate="let d of 'cellTemplateModul'">
+                        {{getModulName(d.row.data)}}
+                    </div>
+            
+                    <dxo-paging [pageSize]="3"> </dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
+                </dx-data-grid>
+                <h4>Ljetni semestar</h4>
+                <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="summer" [showBorders]="false"
+                    [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
+                    <dxo-paging [enabled]="true"></dxo-paging>
+                    <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+
+                    <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc"  caption="Izbor" dataType="string">
+                    </dxi-column>
+            
+                    <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                    </dxi-column>
+
+                    <div *dxTemplate="let d of 'cellTemplateModul'">
+                        {{getModulName(d.row.data)}}
+                    </div>
+
+                    <dxo-paging [pageSize]="3"> </dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
+                </dx-data-grid>
+              </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-neutral" (click)="getUsers(); firstChoiceModal.hide()">Zatvori</button>
+          <button type="button" class="btn btn-primary" (click)="showSecondChoice()">Drugi izbor</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div bsModal #secondChoiceModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"> 
+          <h4 class="modal-title pull-left">Odabir studenta: {{korisnik.ime}} {{korisnik.prezime}}</h4>       
+        </div>
+        <div class="modal-body">
+            <div class="card-body">
+              <form>
+                <h3 style="text-align: center;">Drugi izbor</h3>
+                <h4>Zimski semestar</h4>
+                <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="winterSecond" [showBorders]="false"
+                    [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
+                    <dxo-paging [enabled]="true"></dxo-paging>
+                    <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+
+                    <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc" caption="Izbor" dataType="string">
+                    </dxi-column>
+            
+                    <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                    </dxi-column>
+
+                    <div *dxTemplate="let d of 'cellTemplateModul'">
+                        {{getModulName(d.row.data)}}
+                    </div>
+            
+                    <dxo-paging [pageSize]="8"> </dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                </dx-data-grid>
+                <h4>Ljetni semestar</h4>
+                <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="summerSecond" [showBorders]="false"
+                    [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
+                    <dxo-paging [enabled]="true"></dxo-paging>
+                    <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+
+                    <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc"  caption="Izbor" dataType="string">
+                    </dxi-column>
+            
+                    <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                    </dxi-column>
+                    
+                    <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                    </dxi-column>
+
+                    <div *dxTemplate="let d of 'cellTemplateModul'">
+                        {{getModulName(d.row.data)}}
+                    </div>
+
+                    <dxo-paging [pageSize]="8"> </dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                </dx-data-grid>
+              </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-neutral" (click)="getUsers(); secondChoiceModal.hide()">Zatvori</button>
+          <button type="button" class="btn btn-primary" (click)="secondChoiceModal.hide(); firstChoiceModal.show()">Prvi izbor</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div bsModal #confirmModal="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Brisanje</h5>
+      </div>
+      <div class="modal-body">
+        <p>Jeste li sigurni da želite obrisati odabir korisnika {{selectedUser.ime + " " + selectedUser.prezime}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-neutral" (click)="confirmModal.hide()">Odustani</button>
+        <button type="button" class="btn btn-primary" (click)="confirmModal.hide(); removeKorisnikChoice(selectedUser)">Potvrdi</button>
+      </div>
+    </div>
+  </div>
+</div>

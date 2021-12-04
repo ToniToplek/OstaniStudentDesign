@@ -42,7 +42,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title pull-left">Dodavanje uloge</h4>         
+          <h4 *ngIf="!uloga.id" class="modal-title pull-left">Dodavanje uloge</h4>   
+          <h4 *ngIf="uloga.id" class="modal-title pull-left">Uređivanje uloge</h4>         
         </div>
         <div class="modal-body">
             <div class="card-body">
@@ -62,7 +63,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-neutral" (click)="getRoles(); ulogeModal.hide()">Zatvori</button>
-          <button type="button" class="btn btn-primary" (click)="saveRole()">Spremi</button>
+          <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="saveRole()">Spremi</button>
         </div>
       </div>
     </div>

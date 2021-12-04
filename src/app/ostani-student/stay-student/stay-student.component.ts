@@ -6,6 +6,7 @@ import { Predmeti } from 'src/app/models/predmeti.model';
 import { StayStudentService } from 'src/app/service/stay-student.service';
 import { ToastrService } from 'ngx-toastr';
 import { OstaniStudentDto } from 'src/app/models/ostani-student-dto.model';
+import { element } from 'protractor';
 
 
 @Component({
@@ -17,17 +18,26 @@ export class StayStudentComponent implements OnInit {
 
   blukId: string = "";
   userData: Korisnici;
-  predmets: Predmeti[];
+  summerPredmets: Predmeti[] = [];
+  winterPredmets: Predmeti[] = [];
   moduls: Moduli[];
-  selectedSubjectsFirstChoice: Predmeti[] = [];
-  selectedSubjectsSecondChoice: Predmeti[] = [];
   selectedModuls: Moduli[] = [];
   selectedModul: Moduli;
   isModulSelected: boolean = false;
-  isSubjectFirstChoiceVisible: boolean = false;
-  isSubjectSecondChoiceVisible: boolean = false;
-  requiredSubjectsFirstChoice: Predmeti[] = [];
-  requiredSubjectsSecondChoice: Predmeti[] = [];
+  selectedWinterSubjectsFirstChoice: Predmeti[] = [];
+  selectedWinterSubjectsSecondChoice: Predmeti[] = [];
+  isWinterSubjectFirstChoiceVisible: boolean = false;
+  isWinterSubjectSecondChoiceVisible: boolean = false;
+  requiredWinterSubjectsFirstChoice: Predmeti[] = [];
+  requiredWinterSubjectsSecondChoice: Predmeti[] = [];
+
+  selectedSummerSubjectsFirstChoice: Predmeti[] = [];
+  selectedSummerSubjectsSecondChoice: Predmeti[] = [];
+  isSummerSubjectFirstChoiceVisible: boolean = false;
+  isSummerSubjectSecondChoiceVisible: boolean = false;
+  requiredSummerSubjectsFirstChoice: Predmeti[] = [];
+  requiredSummerSubjectsSecondChoice: Predmeti[] = [];
+
   model: OstaniStudentDto[] = [];
 
   constructor(
@@ -42,23 +52,57 @@ export class StayStudentComponent implements OnInit {
 
   getPredemtsFirstChoice(){
     this.service.getRequiredPredmetsList(this.blukId, false, this.selectedModul.id).then(data => {
-      this.predmets = data;
+      if(data){
+        data.forEach(element => {
+          if(element.jeZimski == true){
+            this.winterPredmets.push(element);
+          }else{
+            this.summerPredmets.push(element);
+          }
+        });
+      }
     });
   }
+
   getRequiredPredemtsFirstChoice(){
     this.service.getRequiredPredmetsList(this.blukId, true, this.selectedModul.id).then(data => {
-      this.requiredSubjectsFirstChoice = data;
+      if(data){
+        data.forEach(element => {
+          if(element.jeZimski == true){
+            this.requiredWinterSubjectsFirstChoice.push(element);
+          }else{
+            this.requiredSummerSubjectsFirstChoice.push(element);
+          }        
+        });
+      }
     });
   }
 
   getPredemtsSecondChoice(){
     this.service.getRequiredPredmetsList(this.blukId, false, this.selectedModul.id).then(data => {
-      this.predmets = data;
+      if(data){
+        data.forEach(element => {
+          if(element.jeZimski == true){
+            this.winterPredmets.push(element);
+          }else{
+            this.summerPredmets.push(element);
+          }
+        });
+      }
     });
   }
+
   getRequiredPredemtsSecondChoice(){
     this.service.getRequiredPredmetsList(this.blukId, true, this.selectedModul.id).then(data => {
-      this.requiredSubjectsSecondChoice = data;
+      if(data){
+        data.forEach(element => {
+          if(element.jeZimski == true){
+            this.requiredWinterSubjectsSecondChoice.push(element);
+          }else{
+            this.requiredSummerSubjectsSecondChoice.push(element);
+          }        
+        });
+      }
     });
   }
 
@@ -74,14 +118,33 @@ export class StayStudentComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<string[]>, bool: boolean) {
+  dropSummer(event: CdkDragDrop<string[]>, bool: boolean) {
     
     if (event.previousContainer === event.container) 
     {
       if(bool){
-        moveItemInArray(this.predmets, event.previousIndex, event.currentIndex);
+        moveItemInArray(this.summerPredmets, event.previousIndex, event.currentIndex);
       }else{
-        moveItemInArray(this.selectedSubjectsFirstChoice, event.previousIndex, event.currentIndex);
+        moveItemInArray(this.selectedSummerSubjectsFirstChoice, event.previousIndex, event.currentIndex);
+      }
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
+  
+  dropWinter(event: CdkDragDrop<string[]>, bool: boolean) {
+    
+    if (event.previousContainer === event.container) 
+    {
+      if(bool){
+        moveItemInArray(this.winterPredmets, event.previousIndex, event.currentIndex);
+      }else{
+        moveItemInArray(this.selectedWinterSubjectsFirstChoice, event.previousIndex, event.currentIndex);
       }
     } else {
       transferArrayItem(
@@ -113,18 +176,28 @@ export class StayStudentComponent implements OnInit {
   }
 
   cancelFirstChoice(){
-    this.selectedSubjectsFirstChoice = [];
+    this.selectedWinterSubjectsFirstChoice = [];
+    this.selectedSummerSubjectsFirstChoice = [];
+    this.requiredWinterSubjectsFirstChoice = [];
+    this.requiredSummerSubjectsFirstChoice = [];
     this.selectedModul = null;
     this.isModulSelected = false;
-    this.isSubjectFirstChoiceVisible = false;
+    this.isWinterSubjectFirstChoiceVisible = false;
+    this.isSummerSubjectFirstChoiceVisible = false;
+    this.summerPredmets = [];
+    this.winterPredmets = [];
   }
 
   cancelSecondChoice(){
-    this.selectedSubjectsSecondChoice = [];
+    this.selectedWinterSubjectsSecondChoice = [];
+    this.selectedSummerSubjectsSecondChoice = [];
     this.selectedModul = this.selectedModuls[0];
-    this.isSubjectFirstChoiceVisible = true;
-    this.isSubjectSecondChoiceVisible = false;
-    this.predmets = [];
+    this.isWinterSubjectFirstChoiceVisible = true;
+    this.isSummerSubjectFirstChoiceVisible = true;
+    this.isWinterSubjectSecondChoiceVisible = false;
+    this.isSummerSubjectSecondChoiceVisible = false;
+    this.summerPredmets = [];
+    this.winterPredmets = [];
   }
 
   cancelModul(){
@@ -135,15 +208,18 @@ export class StayStudentComponent implements OnInit {
   selectModuls(){
     this.selectedModul = this.selectedModuls[0];
     this.isModulSelected = true;
-    this.isSubjectFirstChoiceVisible = true;
+    this.isWinterSubjectFirstChoiceVisible = true;
+    this.isSummerSubjectFirstChoiceVisible = true;
     this.getPredemtsFirstChoice();
     this.getRequiredPredemtsFirstChoice();
   }
 
   submitFirstChoice(){
     this.selectedModul = this.selectedModuls[1];
-    this.isSubjectFirstChoiceVisible = false;
-    this.isSubjectSecondChoiceVisible = true;
+    this.isWinterSubjectFirstChoiceVisible = false;
+    this.isSummerSubjectFirstChoiceVisible = false;
+    this.isWinterSubjectSecondChoiceVisible = true;
+    this.isSummerSubjectSecondChoiceVisible = true;
     this.getPredemtsSecondChoice();
     this.getRequiredPredemtsSecondChoice();
   }
@@ -151,7 +227,7 @@ export class StayStudentComponent implements OnInit {
   submitSecondChoice(){
     //first choice
     let i = 0;
-    this.selectedSubjectsFirstChoice.forEach(element => {
+    this.selectedWinterSubjectsFirstChoice.forEach(element => {
       i++;
       let choice = new OstaniStudentDto();
       choice.IdKorisnik = this.userData.id;
@@ -161,10 +237,21 @@ export class StayStudentComponent implements OnInit {
       choice.BrojIzbora = i;
       this.model.push(choice);
     });
+    let x = 0;
+    this.selectedSummerSubjectsFirstChoice.forEach(element => {
+      x++;
+      let choice = new OstaniStudentDto();
+      choice.IdKorisnik = this.userData.id;
+      choice.IdPredmet = element.id;
+      choice.IdModul = this.selectedModuls[0].id;
+      choice.Rang = 1;
+      choice.BrojIzbora = x;
+      this.model.push(choice);
+    });
 
     //second choice
     let j = 0;
-    this.selectedSubjectsSecondChoice.forEach(element => {
+    this.selectedWinterSubjectsSecondChoice.forEach(element => {
       j++;
       let choice = new OstaniStudentDto();
       choice.IdKorisnik = this.userData.id;
@@ -175,6 +262,18 @@ export class StayStudentComponent implements OnInit {
       this.model.push(choice);
     });
 
+    let y = 0;
+    this.selectedSummerSubjectsSecondChoice.forEach(element => {
+      y++;
+      let choice = new OstaniStudentDto();
+      choice.IdKorisnik = this.userData.id;
+      choice.IdPredmet = element.id;
+      choice.IdModul = this.selectedModuls[1].id;
+      choice.Rang = 2;
+      choice.BrojIzbora = y;
+      this.model.push(choice);
+    });
+
     this.service.saveStudentChoice(this.model).then(data =>{
       this.toastr.success('Uspješno ste spremili svoj odabir!');
     });
@@ -182,17 +281,42 @@ export class StayStudentComponent implements OnInit {
   }
 
   modulsSubmitDisabled(){
-    if(this.moduls.length > 0){
+    if(this.moduls && this.moduls.length > 0){
       return true;
     }
     return false;
   }
 
   subjectSubmitDisabled(){
-    if(this.predmets.length > 0){
+    if((this.winterPredmets && this.winterPredmets.length > 0) || (this.summerPredmets && this.summerPredmets.length > 0)){
       return true;
     }
     return false;
+  }
+
+  displayExpr(predmet: Predmeti){
+    if(this.selectedModuls.length > 0){
+      let kratica = this.selectedModuls.find(t => t.id == predmet.idModul);
+      if(kratica){
+        return predmet.naziv + " (" + kratica.kratica + ")";
+      }else{
+        return predmet.naziv + " (Izborni)"
+      }
+    }
+  }
+
+  color(id: number){
+    if(id==1){
+      return '#ffcc66'
+    }else if(id==2){
+      return '#aac8ff'
+    }else if(id==3){
+      return '#98cdaa'
+    }else if(id==4){
+      return '#ac6553'
+    }else{
+      return '#C0C0C0'
+    }
   }
 
 }

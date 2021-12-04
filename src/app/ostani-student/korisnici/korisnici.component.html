@@ -43,7 +43,7 @@
               <i class="bi bi-plus-circle-fill"></i>
           </div>
         </div>
-
+        <dxo-paging [pageSize]="8"> </dxo-paging>
         <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
   
       </dx-data-grid>
@@ -54,7 +54,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title pull-left">Dodavanje korisnika</h4>         
+          <h4 *ngIf="!korisnik.korisnikId" class="modal-title pull-left">Dodavanje korisnika</h4>    
+          <h4 *ngIf="korisnik.korisnikId" class="modal-title pull-left">Uređivanje korisnika</h4>       
         </div>
         <div class="modal-body">
             <div class="card-body">
@@ -129,7 +130,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-neutral" (click)="getUsers(); userModal.hide()">Zatvori</button>
-          <button type="button" class="btn btn-primary" (click)="saveUser()">Spremi</button>
+          <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="saveUser()">Spremi</button>
         </div>
       </div>
     </div>

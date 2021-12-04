@@ -13,11 +13,26 @@
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
         </dxo-editing>
+
+        <dxi-column caption="Br." dataType="string" width="40px" cellTemplate="ordinalNum">
+        </dxi-column>
+
+        <div *dxTemplate="let d of 'ordinalNum'">
+          {{d.row.rowIndex+1}}.
+        </div>
   
         <dxi-column dataField="naziv" sortOrder="asc" caption="Naziv" dataType="string">
         </dxi-column>
 
         <dxi-column dataField="kapacitet" caption="Kapacitet" dataType="string">
+        </dxi-column>
+
+        <dxi-column dataField="jeZimski"
+                caption="Semestar"
+                dataType="string">
+        <dxo-lookup [dataSource]="semestri"
+                  displayExpr="name"
+                  valueExpr="isWinter"></dxo-lookup>
         </dxi-column>
 
         <dxi-column dataField="idModul"
@@ -50,7 +65,7 @@
               <i class="bi bi-plus-circle-fill"></i>
           </div>
         </div>
-
+        <dxo-paging [pageSize]="8"> </dxo-paging>
         <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
   
       </dx-data-grid>
@@ -61,7 +76,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title pull-left">Dodavanje predmeta</h4>         
+          <h4 *ngIf="!predmet.id" class="modal-title pull-left">Dodavanje predmeta</h4>         
+          <h4 *ngIf="predmet.id" class="modal-title pull-left">Uređivanje predmeta</h4>        
         </div>
         <div class="modal-body">
             <div class="card-body">
@@ -84,12 +100,20 @@
                     <div class="invalid-feedback">
                         Obavezan unos.
                     </div>
+
+                    <label for="semestar">Semestar</label>
+                    <dx-radio-group class="radio"
+                      [items]="semestri" 
+                      valueExpr="isWinter"
+                      displayExpr="name"
+                      [(value)]="predmet.jeZimski">
+                    </dx-radio-group>
                 </div>
 
                 <div>
                   <div class="form-group col-md-24">
                     <label for="modul">Modul</label>
-                    <dx-select-box
+                    <dx-select-box class="select"
                       [dataSource]="moduli"
                       [displayExpr]="'naziv'"
                       valueExpr="id"
@@ -99,6 +123,7 @@
                       [minSearchLength]="0"
                       [showClearButton]="true"
                       [searchEnabled]="true"
+                      (onValueChanged)="isValidCheck()"
                       placeholder="Odaberi...">
                     </dx-select-box>
                     <div class="invalid-feedback">
@@ -108,13 +133,14 @@
                 </div>
                 <div>
                   <div class="form-group col-md-24">
-                    <label for="sifrarnik">Šifrarnik</label>
-                    <dx-select-box
+                    <label for="sifrarnik">Status predmeta</label>
+                    <dx-select-box class="select"
                       [dataSource]="sifrarnik"
                       [displayExpr]="'naziv'"
                       valueExpr="id"
                       [(value)]="predmet.idSifrarnik"
                       searchMode="contains"
+                      (onValueChanged)="isValidCheck()"
                       [searchTimeout]="50"
                       [minSearchLength]="0"
                       [showClearButton]="true"
@@ -131,7 +157,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-neutral" (click)="getSubjects(); subjectModal.hide()">Zatvori</button>
-          <button type="button" class="btn btn-primary" (click)="saveSubject()">Spremi</button>
+          <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="saveSubject()">Spremi</button>
         </div>
       </div>
     </div>

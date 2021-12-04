@@ -21,6 +21,7 @@
       <div
         class="subject-box"
         *ngFor="let modul of moduls"
+        [style]="{background: color(modul.id)}"
         [cdkDragData]="modul.id"
         cdkDrag>
         <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
@@ -39,6 +40,7 @@
       (cdkDropListDropped)="dropModul($event, false)">
       <div
         class="subject-box"
+        [style]="{background: color(modul.id)}"
         *ngFor="let modul of selectedModuls; let i = index"
         cdkDrag
         [cdkDragData]="modul.id">
@@ -53,86 +55,149 @@
   </div>
 </div>
 
-<div *ngIf="isSubjectFirstChoiceVisible" class="text-center mt-4">
-  <h3>Obavezni predmeti za prvorangirani modul "{{selectedModul.naziv}}"</h3>
-  <div class="table mt-2">
-    <div class="subject-list" style="border-bottom: 0px;">
-      <div class="subject-box-required" *ngFor="let predmet of requiredSubjectsFirstChoice">
-        {{predmet.naziv}}
+<!--Prvi izbor-->
+<div *ngIf="isWinterSubjectFirstChoiceVisible">
+  <div class="text-center mt-4">
+    <h3>Obavezni predmeti za prvorangirani modul "{{selectedModul.naziv}}" zimski semestar</h3>
+    <div class="table mt-2">
+      <div class="subject-list" style="border-bottom: 0px;">
+        <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredWinterSubjectsFirstChoice">
+          {{predmet.naziv}}
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="isSubjectFirstChoiceVisible" class="text-center mt-5">
-  <div class="table">
-    <h3>Izborni predmeti</h3>
-    <div
-      id="allSubjects"
-      cdkDropList
-      [cdkDropListData]="predmets"
-      cdkDropListConnectedTo="selectedSubjects"
-      class="subject-list"
-      (cdkDropListDropped)="drop($event, true)">
+  <div class="text-center mt-5">
+    <div class="table">
+      <h3>Izborni predmeti zimski semestar</h3>
       <div
-        class="subject-box"
-        *ngFor="let predmet of predmets"
-        [cdkDragData]="predmet.id"
-        cdkDrag>
-        <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-        {{predmet.naziv}}
+        id="allWinterSubjects"
+        cdkDropList
+        [cdkDropListData]="winterPredmets"
+        cdkDropListConnectedTo="selectedWinterSubjects"
+        class="subject-list"
+        (cdkDropListDropped)="dropWinter($event, true)">
+        <div
+          class="subject-box"
+          *ngFor="let predmet of winterPredmets"
+          [style]="{background: color(predmet.idModul)}"
+          [cdkDragData]="predmet.id"
+          cdkDrag>
+          <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+          {{predmet.naziv}}
+        </div>
+      </div>
+    </div>
+    <div class="table">
+      <h3>Razvrstaj predmete po odabiru</h3>
+      <div
+        id="selectedWinterSubjects"
+        cdkDropList
+        [cdkDropListData]="selectedWinterSubjectsFirstChoice"
+        cdkDropListConnectedTo="allWinterSubjects"
+        class="subject-list"
+        (cdkDropListDropped)="dropWinter($event, false)">
+        <div
+          class="subject-box"
+          [style]="{background: color(predmet.idModul)}"
+          *ngFor="let predmet of selectedWinterSubjectsFirstChoice; let i = index"
+          cdkDrag
+          [cdkDragData]="predmet.id">
+          <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+          {{i+1+". " + predmet.naziv}}
+        </div>
       </div>
     </div>
   </div>
-  <div class="table">
-    <h3>Razvrstaj predmete po odabiru</h3>
-    <div
-      id="selectedSubjects"
-      cdkDropList
-      [cdkDropListData]="selectedSubjectsFirstChoice"
-      cdkDropListConnectedTo="allSubjects"
-      class="subject-list"
-      (cdkDropListDropped)="drop($event, false)">
-      <div
-        class="subject-box"
-        *ngFor="let predmet of selectedSubjectsFirstChoice; let i = index"
-        cdkDrag
-        [cdkDragData]="predmet.id">
-        <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-        {{i+1+". " + predmet.naziv}}
+
+  <!--LJETNIIIII-->
+  <div class="text-center mt-4">
+    <h3>Obavezni predmeti za prvorangirani modul "{{selectedModul.naziv}}" ljetni semestar</h3>
+    <div class="table mt-2">
+      <div class="subject-list" style="border-bottom: 0px;">
+        <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredSummerSubjectsFirstChoice">
+          {{predmet.naziv}}
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="text-center mt-5">
+    <div class="table">
+      <h3>Izborni predmeti ljetni semestar</h3>
+      <div
+        id="allSummerSubjects"
+        cdkDropList
+        [cdkDropListData]="summerPredmets"
+        cdkDropListConnectedTo="selectedSummerSubjects"
+        class="subject-list"
+        (cdkDropListDropped)="dropSummer($event, true)">
+        <div
+          class="subject-box"
+          [style]="{background: color(predmet.idModul)}"
+          *ngFor="let predmet of summerPredmets"
+          [cdkDragData]="predmet.id"
+          cdkDrag>
+          <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+          {{displayExpr(predmet)}}
+        </div>
+      </div>
+    </div>
+    <div class="table">
+      <h3>Razvrstaj predmete po odabiru</h3>
+      <div
+        id="selectedSummerSubjects"
+        cdkDropList
+        [cdkDropListData]="selectedSummerSubjectsFirstChoice"
+        cdkDropListConnectedTo="allSummerSubjects"
+        class="subject-list"
+        (cdkDropListDropped)="dropSummer($event, false)">
+        <div
+          class="subject-box"
+          [style]="{background: color(predmet.idModul)}"
+          *ngFor="let predmet of selectedSummerSubjectsFirstChoice; let i = index"
+          cdkDrag
+          [cdkDragData]="predmet.id">
+          <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+          {{i+1+". " + predmet.naziv}}
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="buttons mb-4">
     <button type="button" class="btn btn-neutral" (click)="cancelFirstChoice()">Odustani</button>
     <button type="button" [disabled]="subjectSubmitDisabled()" class="btn btn-primary" (click)="submitFirstChoice()">Potvrdi prvi izbor</button>
   </div>
 </div>
 
-<div *ngIf="isSubjectSecondChoiceVisible" class="text-center mt-4">
+<!--Drugi izbor-->
+<div *ngIf="isWinterSubjectSecondChoiceVisible" class="text-center mt-4">
   <h3>Obavezni predmeti za drugorangirani modul "{{selectedModul.naziv}}"</h3>
   <div class="table mt-2">
     <div class="subject-list" style="border-bottom: 0px;">
-      <div class="subject-box-required" *ngFor="let predmet of requiredSubjectsSecondChoice">
+      <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredWinterSubjectsSecondChoice">
         {{predmet.naziv}}
       </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="isSubjectSecondChoiceVisible" class="text-center mt-5">
+<div *ngIf="isWinterSubjectSecondChoiceVisible" class="text-center mt-5">
   <div class="table">
     <h3>Izborni predmeti</h3>
     <div
-      id="allSubjects"
+      id="allWinterSubjects"
       cdkDropList
-      [cdkDropListData]="predmets"
-      cdkDropListConnectedTo="selectedSubjects"
+      [cdkDropListData]="winterPredmets"
+      cdkDropListConnectedTo="selectedWinterSubjects"
       class="subject-list"
-      (cdkDropListDropped)="drop($event, true)">
+      (cdkDropListDropped)="dropWinter($event, true)">
       <div
         class="subject-box"
-        *ngFor="let predmet of predmets"
+        [style]="{background: color(predmet.idModul)}"
+        *ngFor="let predmet of winterPredmets"
         [cdkDragData]="predmet.id"
         cdkDrag>
         <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
@@ -143,15 +208,16 @@
   <div class="table">
     <h3>Razvrstaj predmete po odabiru</h3>
     <div
-      id="selectedSubjects"
+      id="selectedWinterSubjects"
       cdkDropList
-      [cdkDropListData]="selectedSubjectsSecondChoice"
-      cdkDropListConnectedTo="allSubjects"
+      [cdkDropListData]="selectedWinterSubjectsSecondChoice"
+      cdkDropListConnectedTo="allWinterSubjects"
       class="subject-list"
-      (cdkDropListDropped)="drop($event, false)">
+      (cdkDropListDropped)="dropWinter($event, false)">
       <div
         class="subject-box"
-        *ngFor="let predmet of selectedSubjectsSecondChoice; let i = index"
+        [style]="{background: color(predmet.idModul)}"
+        *ngFor="let predmet of selectedWinterSubjectsSecondChoice; let i = index"
         cdkDrag
         [cdkDragData]="predmet.id">
         <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
@@ -159,6 +225,62 @@
       </div>
     </div>
   </div>
+
+  <!--LJETNIIIII-->
+  <div class="text-center mt-4">
+    <h3>Obavezni predmeti za prvorangirani modul "{{selectedModul.naziv}}" ljetni semestar</h3>
+    <div class="table mt-2">
+      <div class="subject-list" style="border-bottom: 0px;">
+        <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredSummerSubjectsSecondChoice">
+          {{predmet.naziv}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-5">
+    <div class="table">
+      <h3>Izborni predmeti ljetni semestar</h3>
+      <div
+        id="allSummerSubjects"
+        cdkDropList
+        [cdkDropListData]="summerPredmets"
+        cdkDropListConnectedTo="selectedSummerSubjects"
+        class="subject-list"
+        (cdkDropListDropped)="dropSummer($event, true)">
+        <div
+          class="subject-box"
+          [style]="{background: color(predmet.idModul)}"
+          *ngFor="let predmet of summerPredmets"
+          [cdkDragData]="predmet.id"
+          cdkDrag>
+          <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+          {{predmet.naziv}}
+        </div>
+      </div>
+    </div>
+    <div class="table">
+      <h3>Razvrstaj predmete po odabiru</h3>
+      <div
+        id="selectedSummerSubjects"
+        cdkDropList
+        [cdkDropListData]="selectedSummerSubjectsSecondChoice"
+        cdkDropListConnectedTo="allSummerSubjects"
+        class="subject-list"
+        (cdkDropListDropped)="dropSummer($event, false)">
+        <div
+          class="subject-box"
+          [style]="{background: color(predmet.idModul)}"
+          *ngFor="let predmet of selectedSummerSubjectsSecondChoice; let i = index"
+          cdkDrag
+          [cdkDragData]="predmet.id">
+          <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
+          {{i+1+". " + predmet.naziv}}
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="buttons mb-4">
     <button type="button" class="btn btn-neutral" (click)="cancelSecondChoice()">Odustani</button>
     <button type="button" [disabled]="subjectSubmitDisabled()" class="btn btn-primary" (click)="submitSecondChoice()">Potvrdi drugi izbor</button>

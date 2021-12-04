@@ -28,8 +28,7 @@ export class KorisniciComponent implements OnInit {
   selectedUser: VKorisniciUloge = new VKorisniciUloge;
 
   constructor(
-    private service: StayStudentService,
-    private modalService: BsModalService
+    private service: StayStudentService
   ) {}
 
   ngOnInit(): void {
@@ -101,6 +100,13 @@ export class KorisniciComponent implements OnInit {
             });
     });
     e.cancel = true; 
+  }
+
+  isDisabled(){
+    if(!this.korisnik.ime || !this.korisnik.prezime || !this.korisnik.jmbag || !this.korisnik.email || !this.korisnik.ulogaId){
+      return true;
+    }
+    return false;
   }
 
 }

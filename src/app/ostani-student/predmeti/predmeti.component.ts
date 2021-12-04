@@ -23,10 +23,12 @@ export class PredmetiComponent implements OnInit {
   
   blukId: string = "";
   predmeti: Predmeti[] = [];
+  isValid: boolean = false;
   moduli: Moduli[] = [];
   sifrarnik: Sifrarnik[] = [];
   predmet: Predmeti = new Predmeti;
   selectedSubject: Predmeti = new Predmeti;
+  semestri: any[] = [{isWinter:true, name: 'Zimski'}, {isWinter:false, name: 'Ljetni'}]
 
   constructor(
     private service: StayStudentService
@@ -101,4 +103,23 @@ export class PredmetiComponent implements OnInit {
     });
     e.cancel = true; 
   }
+
+  isDisabled(){
+    if(!this.predmet.naziv || !this.predmet.idSifrarnik || !this.isValid){
+      return true;
+    }
+    return false;
+  }
+
+  isValidCheck(){
+    if(this.predmet){
+      let sif = this.sifrarnik.find(t => t.id == this.predmet.idSifrarnik);
+      if(sif.zahtijevaModul && !this.predmet.idModul){
+        this.isValid = false;
+      }else{
+        this.isValid = true;
+      }
+    }
+  }
+
 }

@@ -92,4 +92,19 @@ export class SifrarnikComponent implements OnInit {
     });
     e.cancel = true; 
   }
+
+  isDisabled(){
+    if(!this.sifrarnikItem.naziv){
+      return true;
+    }
+    return false;
+  }
+
+  getRequiredText(data: any){
+    if(data && data.zahtijevaModul){
+      return 'Da';
+    }
+    return 'Ne';
+  }
+
 }

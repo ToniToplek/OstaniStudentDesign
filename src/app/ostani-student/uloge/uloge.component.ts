@@ -92,4 +92,11 @@ export class UlogeComponent implements OnInit {
     e.cancel = true; 
   }
 
+  isDisabled(){
+    if(!this.uloga.naziv){
+      return true;
+    }
+    return false;
+  }
+
 }

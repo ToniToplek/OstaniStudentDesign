@@ -16,6 +16,9 @@
   
         <dxi-column dataField="naziv" sortOrder="asc" caption="Naziv" dataType="string">
         </dxi-column>
+
+        <dxi-column dataField="kratica" caption="Kratica" dataType="string">
+        </dxi-column>
   
         <dxi-column caption="Akcije" type="buttons" [width]="'auto'" [hidingPriority]="5"
           cellTemplate="acctionsCellTemplate"  headerCellTemplate="addIconHeaderTemplate"></dxi-column>
@@ -42,7 +45,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title pull-left">Dodavanje modula</h4>         
+          <h4 *ngIf="!modul.id" class="modal-title pull-left">Dodavanje modula</h4>         
+          <h4 *ngIf="modul.id" class="modal-title pull-left">Uređivanje modula</h4>        
         </div>
         <div class="modal-body">
             <div class="card-body">
@@ -56,13 +60,21 @@
                   <div class="invalid-feedback">
                       Obavezan unos.
                   </div>
+                  <label for="naziv">Kratica</label>
+                  <dx-text-box required
+                              name="kratica"
+                              [(value)]="modul.kratica">
+                  </dx-text-box>
+                  <div class="invalid-feedback">
+                      Obavezan unos.
+                  </div>
                 </div>
               </form>
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-neutral" (click)="getModuls(); modulModal.hide()">Zatvori</button>
-          <button type="button" class="btn btn-primary" (click)="saveModul()">Spremi</button>
+          <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="saveModul()">Spremi</button>
         </div>
       </div>
     </div>
