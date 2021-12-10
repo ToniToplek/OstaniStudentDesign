@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
+import { StayStudentService } from 'src/app/service/stay-student.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -9,11 +10,14 @@ import { element } from 'protractor';
 export class SideNavComponent implements OnInit {
 
   status: boolean = false;
+  bulkId: string = '';
 
-  constructor() { }
+  constructor(
+    private service: StayStudentService
+  ) { }
 
   ngOnInit(): void {
-
+    this.bulkId = this.service.selectedUserBulkId;
   }
   
   clickEvent(){

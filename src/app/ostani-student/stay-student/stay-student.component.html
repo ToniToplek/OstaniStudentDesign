@@ -1,3 +1,5 @@
+<app-side-nav></app-side-nav>
+<div class="compDesign">
 <div class="row">
   <div class="header py-3">
     <h1 class="mb-0 f-25 font-weight-bold" style="color: #f8f9fa; text-align: center;">Ostani student</h1>
@@ -30,7 +32,7 @@
     </div>
   </div>
   <div class="table">
-    <h3>Razvrstaj module po odabiru</h3>
+    <h3>Rangiraj module po odabiru</h3>
     <div
       id="selectedModuls"
       cdkDropList
@@ -62,7 +64,7 @@
     <div class="table mt-2">
       <div class="subject-list" style="border-bottom: 0px;">
         <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredWinterSubjectsFirstChoice">
-          {{predmet.naziv}}
+          {{displayRequiredExpr(predmet)}}
         </div>
       </div>
     </div>
@@ -85,12 +87,12 @@
           [cdkDragData]="predmet.id"
           cdkDrag>
           <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-          {{predmet.naziv}}
+          {{displayExpr(predmet)}}
         </div>
       </div>
     </div>
     <div class="table">
-      <h3>Razvrstaj predmete po odabiru</h3>
+      <h3>Rangiraj predmete po odabiru</h3>
       <div
         id="selectedWinterSubjects"
         cdkDropList
@@ -105,7 +107,7 @@
           cdkDrag
           [cdkDragData]="predmet.id">
           <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-          {{i+1+". " + predmet.naziv}}
+          {{i+1+". " + displayExpr(predmet)}}
         </div>
       </div>
     </div>
@@ -117,7 +119,7 @@
     <div class="table mt-2">
       <div class="subject-list" style="border-bottom: 0px;">
         <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredSummerSubjectsFirstChoice">
-          {{predmet.naziv}}
+          {{displayRequiredExpr(predmet)}}
         </div>
       </div>
     </div>
@@ -145,7 +147,7 @@
       </div>
     </div>
     <div class="table">
-      <h3>Razvrstaj predmete po odabiru</h3>
+      <h3>Rangiraj predmete po odabiru</h3>
       <div
         id="selectedSummerSubjects"
         cdkDropList
@@ -160,7 +162,7 @@
           cdkDrag
           [cdkDragData]="predmet.id">
           <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-          {{i+1+". " + predmet.naziv}}
+          {{i+1+". " + displayExpr(predmet)}}
         </div>
       </div>
     </div>
@@ -178,7 +180,7 @@
   <div class="table mt-2">
     <div class="subject-list" style="border-bottom: 0px;">
       <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredWinterSubjectsSecondChoice">
-        {{predmet.naziv}}
+        {{displayRequiredExpr(predmet)}}
       </div>
     </div>
   </div>
@@ -201,12 +203,12 @@
         [cdkDragData]="predmet.id"
         cdkDrag>
         <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-        {{predmet.naziv}}
+        {{displayExpr(predmet)}}
       </div>
     </div>
   </div>
   <div class="table">
-    <h3>Razvrstaj predmete po odabiru</h3>
+    <h3>Rangiraj predmete po odabiru</h3>
     <div
       id="selectedWinterSubjects"
       cdkDropList
@@ -221,7 +223,7 @@
         cdkDrag
         [cdkDragData]="predmet.id">
         <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-        {{i+1+". " + predmet.naziv}}
+        {{i+1+". " + displayExpr(predmet)}}
       </div>
     </div>
   </div>
@@ -232,7 +234,7 @@
     <div class="table mt-2">
       <div class="subject-list" style="border-bottom: 0px;">
         <div class="subject-box-required" [style]="{background: color(predmet.idModul)}" *ngFor="let predmet of requiredSummerSubjectsSecondChoice">
-          {{predmet.naziv}}
+          {{displayRequiredExpr(predmet)}}
         </div>
       </div>
     </div>
@@ -255,12 +257,12 @@
           [cdkDragData]="predmet.id"
           cdkDrag>
           <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-          {{predmet.naziv}}
+          {{displayExpr(predmet)}}
         </div>
       </div>
     </div>
     <div class="table">
-      <h3>Razvrstaj predmete po odabiru</h3>
+      <h3>Rangiraj predmete po odabiru</h3>
       <div
         id="selectedSummerSubjects"
         cdkDropList
@@ -275,7 +277,7 @@
           cdkDrag
           [cdkDragData]="predmet.id">
           <div class="subject-custom-placeholder" *cdkDragPlaceholder></div>
-          {{i+1+". " + predmet.naziv}}
+          {{i+1+". " + displayExpr(predmet)}}
         </div>
       </div>
     </div>
@@ -286,4 +288,6 @@
     <button type="button" [disabled]="subjectSubmitDisabled()" class="btn btn-primary" (click)="submitSecondChoice()">Potvrdi drugi izbor</button>
   </div>
 </div>
+</div>
+
 

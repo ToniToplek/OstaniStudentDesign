@@ -6,15 +6,17 @@ export class VKorisniciUloge {
     public jmbag: string;
     public korisnikId: number;
     public naziv: string;
+    public lozinka: string;
     public ulogaId: number;
     public korisniciUlogeId: number;
 
-    constructor(id : number = 0,  ime : string = '',  prezime : string = '',  email : string = '',  jmbag : string = '', korisnikId: number = 0, naziv: string = '', ulogaId: number = 0, korisniciUlogeId: number = 0) {  
+    constructor(id : number = 0,  ime : string = '', lozinka : string = '' ,  prezime : string = '',  email : string = '',  jmbag : string = '', korisnikId: number = 0, naziv: string = '', ulogaId: number = 0, korisniciUlogeId: number = 0) {  
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
         this.jmbag = jmbag;
+        this.lozinka = lozinka;
         this.korisnikId = korisnikId;
         this.naziv = naziv;
         this.ulogaId = ulogaId;

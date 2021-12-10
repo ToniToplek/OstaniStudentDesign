@@ -1,3 +1,5 @@
+<app-side-nav></app-side-nav>
+<div class="compDesign">
 <div class="py-4 my-1">
     <div class="row mb-5">
       <div class="col-md-24">
@@ -39,6 +41,11 @@
   
       </dx-data-grid>
     </div>
+    <div class="container">
+      <div style="width:100%; margin-top: 30px;">
+        <canvas width="700" height="250" id="myChart"></canvas>
+      </div>
+    </div>
 </div>
 
 <div bsModal #firstChoiceModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
@@ -74,7 +81,9 @@
                     <dxo-paging [pageSize]="3"> </dxo-paging>
                     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
                 </dx-data-grid>
-                <h4>Ljetni semestar</h4>
+                <div style="margin-top: 30px;">
+                  <h4>Ljetni semestar</h4>
+                </div>
                 <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="summer" [showBorders]="false"
                     [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
                     <dxo-paging [enabled]="true"></dxo-paging>
@@ -138,10 +147,12 @@
                         {{getModulName(d.row.data)}}
                     </div>
             
-                    <dxo-paging [pageSize]="8"> </dxo-paging>
-                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                    <dxo-paging [pageSize]="3"> </dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
                 </dx-data-grid>
-                <h4>Ljetni semestar</h4>
+                <div style="margin-top: 30px;">
+                  <h4>Ljetni semestar</h4>
+                </div>
                 <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="summerSecond" [showBorders]="false"
                     [rowAlternationEnabled]="true" [remoteOperations]="true" (onExporting)="onExporting($event)">
                     <dxo-paging [enabled]="true"></dxo-paging>
@@ -161,8 +172,8 @@
                         {{getModulName(d.row.data)}}
                     </div>
 
-                    <dxo-paging [pageSize]="8"> </dxo-paging>
-                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                    <dxo-paging [pageSize]="3"> </dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
                 </dx-data-grid>
               </form>
             </div>
@@ -190,4 +201,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

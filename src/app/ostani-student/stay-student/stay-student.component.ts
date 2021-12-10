@@ -7,6 +7,8 @@ import { StayStudentService } from 'src/app/service/stay-student.service';
 import { ToastrService } from 'ngx-toastr';
 import { OstaniStudentDto } from 'src/app/models/ostani-student-dto.model';
 import { element } from 'protractor';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -40,13 +42,21 @@ export class StayStudentComponent implements OnInit {
 
   model: OstaniStudentDto[] = [];
 
+  routerSubscription: Subscription;
+
   constructor(
     private service: StayStudentService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.getUserData();
+    this.routerSubscription = this.route.paramMap.subscribe(params => {
+      if (params.get('id')) {
+        this.blukId = params.get('id');
+        this.getUserData();
+      }
+    })
     this.getModuls();
   }
 
@@ -113,7 +123,7 @@ export class StayStudentComponent implements OnInit {
   }
 
   getUserData(){
-    this.service.getUserDataById(this.blukId, 2).then(data => {
+    this.service.getUserDataByBulkId(this.blukId).then(data => {
       this.userData = data;
     });
   }
@@ -276,6 +286,8 @@ export class StayStudentComponent implements OnInit {
 
     this.service.saveStudentChoice(this.model).then(data =>{
       this.toastr.success('Uspješno ste spremili svoj odabir!');
+      this.isWinterSubjectSecondChoiceVisible = false;
+      this.isModulSelected = false;
     });
 
   }
@@ -301,6 +313,17 @@ export class StayStudentComponent implements OnInit {
         return predmet.naziv + " (" + kratica.kratica + ")";
       }else{
         return predmet.naziv + " (Izborni)"
+      }
+    }
+  }
+
+  displayRequiredExpr(predmet: Predmeti){
+    if(this.selectedModuls.length > 0){
+      let kratica = this.selectedModuls.find(t => t.id == predmet.idModul);
+      if(kratica){
+        return predmet.naziv + " (" + kratica.kratica + ")";
+      }else{
+        return predmet.naziv + " (Obavezni)"
       }
     }
   }

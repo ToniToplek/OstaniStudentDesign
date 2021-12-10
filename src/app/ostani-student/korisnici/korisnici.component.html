@@ -1,3 +1,5 @@
+<app-side-nav></app-side-nav>
+<div class="compDesign">
 <div class="py-4 my-1">
     <div class="row mb-5">
       <div class="col-md-24">
@@ -13,6 +15,10 @@
         <dxo-paging [enabled]="true"></dxo-paging>
         <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
         </dxo-editing>
+
+        
+        <dxi-column dataField="korisnikId" caption="Id" dataType="number">
+        </dxi-column>
 
         <dxi-column dataField="ime" caption="Ime" dataType="string">
         </dxi-column>
@@ -122,6 +128,18 @@
                     </dx-select-box>
                     <div class="invalid-feedback">
                         Obavezan unos.
+                    </div>
+                  </div>
+                  <div>
+                    <div class="form-group col-md-24">
+                      <label for="lozinka">Postavi novu lozinku (minimalno 3 znaka) ili ostavi prazno</label>
+                      <dx-text-box required
+                                  name="lozinka"
+                                  [(value)]="korisnik.lozinka">
+                      </dx-text-box>
+                      <div class="invalid-feedback">
+                          Obavezan unos.
+                      </div>
                     </div>
                   </div>
                 </div>

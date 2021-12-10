@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 import { KorisniciComponent } from './ostani-student/korisnici/korisnici.component';
 import { ModuliComponent } from './ostani-student/moduli/moduli.component';
 import { PredmetiComponent } from './ostani-student/predmeti/predmeti.component';
@@ -9,7 +10,8 @@ import { StayStudentComponent } from './ostani-student/stay-student/stay-student
 import { UlogeComponent } from './ostani-student/uloge/uloge.component';
 
 const routes: Routes = [
-  { path: '', component:  StayStudentComponent},
+  { path: '', component:  LoginComponent},
+  { path: 'home/:id', component:  StayStudentComponent},
   { path: 'pregledOdabira', component:  PregledOdabiraComponent},
   { path: 'predmeti', component:  PredmetiComponent},
   { path: 'korisnici', component:  KorisniciComponent},

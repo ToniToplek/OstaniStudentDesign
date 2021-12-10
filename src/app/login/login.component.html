@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div class="row">
+    <div class="header py-3">
+      <h1 class="mb-0 f-25 font-weight-bold" style="color: #f8f9fa; text-align: center;">Ostani student</h1>
+    </div>
+</div>
+  
+<div class="login-wrapper">
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                <dx-text-box style="margin: 0px; width: 238px;" placeholder="E-mail" type="email" [(value)]="korisnik.email"></dx-text-box>
+            </div>
+            </div> 
+            <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                <dx-text-box style="margin: 0px; width: 238px;" placeholder="******" type="password" mode="password" [(value)]="korisnik.lozinka"></dx-text-box>
+            </div>
+            </div> 
+            <div class="form-group">
+            <button class="btn btn-primary btn-block" (click)="onSubmit()"> Prijava  </button>
+            </div>
+        </div>
+    </div>
+</div>
