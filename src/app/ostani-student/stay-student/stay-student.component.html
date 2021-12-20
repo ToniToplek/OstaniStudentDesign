@@ -1,13 +1,15 @@
-<app-side-nav></app-side-nav>
-<div class="compDesign">
+
 <div class="row">
-  <div class="header py-3">
-    <h1 class="mb-0 f-25 font-weight-bold" style="color: #f8f9fa; text-align: center;">Ostani student</h1>
-  </div>
+  <h1 class="mb-0 f-25 font-weight-bold py-3 text-center header" style="color: #f8f9fa;">Ostani student</h1>
 </div>
 
-<div class="text-center col-md-24 row py-3" style="background-color: #173753; color: #f8f9fa;">
-  <h4>{{userData?.ime + " " + userData?.prezime + " (" + userData?.jmbag + ")"}}</h4>
+<div class="row py-3" style="background-color: #173753; color: #f8f9fa;">
+  <div class="col-1"></div>
+  <h4 class="col-10 text-center mt-2">{{userData?.ime + " " + userData?.prezime + " (" + userData?.jmbag + ")"}}</h4>
+  <div class="col-1">
+    <button class="btn btnLogout btn-danger" (click)="onLogout()">Odjava</button>
+  </div>
+
 </div>
 
 <div *ngIf="!isModulSelected" class="text-center mt-4">
@@ -288,6 +290,6 @@
     <button type="button" [disabled]="subjectSubmitDisabled()" class="btn btn-primary" (click)="submitSecondChoice()">Potvrdi drugi izbor</button>
   </div>
 </div>
-</div>
+
 
 

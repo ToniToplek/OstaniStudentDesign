@@ -16,33 +16,39 @@ import { BaseService } from './base.service';
 })
 export class StayStudentService{
   apiBaseUrl = environment.apiBaseUrl;
-  selectedUserBulkId: string;
+  selectedUser: Korisnici;
 
   constructor(private httpClient: HttpClient) {}
 
   //Korisnici
-  public getUsersList = (bulkId: string): Promise<any> => {
+  public getUsersList = (): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getallusers`).toPromise();
   }
 
-  public getUserChoiceList = (bulkId: string): Promise<KorisniciZeljeniModuliDto[]> => {
+  public getUserChoiceList = (): Promise<KorisniciZeljeniModuliDto[]> => {
     return this.httpClient.get<KorisniciZeljeniModuliDto[]>(`${this.apiBaseUrl}api/Korisnici/getalluserschoice`).toPromise();
   }
 
   public getUserChoicePredmets = (korisnikId: number, odabir: number): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getalluserssubjectchoice/${odabir}/${korisnikId}`).toPromise();
   }
-  
-  public getUserDataByBulkId = (bulkId: string): Promise<any> => {
-    return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getuserbybulkid/${bulkId}`).toPromise();
-  }
 
-  public getUserDataByLoginData = (korisnik: Korisnici): Promise<Korisnici> => {
-    let clientId = this.httpClient.post<Korisnici>(`${this.apiBaseUrl}api/Korisnici/getuserbylogindata`, korisnik).toPromise();
+  public getUserDataByBulkId = (bulkId: string): Promise<any> => {
+    if(bulkId){
+      return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getuserbybulkid/${bulkId}`).toPromise();
+    }
+  }
+  
+  public getUserDataByLoginData = (): Promise<Korisnici> => {
+    let clientId = this.httpClient.get<Korisnici>(`${this.apiBaseUrl}api/Korisnici/getuserbylogindata`).toPromise();
     clientId.then(data => {
-      this.selectedUserBulkId = data.bulkId;
+      this.selectedUser = data;
     });
     return clientId;
+  }
+
+  public login = (korisnik: Korisnici): Promise<any> => {
+    return this.httpClient.post(`${this.apiBaseUrl}api/Korisnici/login`, korisnik).toPromise();
   }
 
   public addUser = (korisnik: VKorisniciUloge): Promise<any> => {
@@ -66,11 +72,11 @@ export class StayStudentService{
   }
 
   //Predmeti
-  public getPredmetsList = (bulkId: string): Promise<any> => {
+  public getPredmetsList = (): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Predmeti/getallpredmets`).toPromise();
   }
 
-  public getRequiredPredmetsList = (bulkId: string, isRequired: boolean, selectedModulId: number): Promise<any> => {
+  public getRequiredPredmetsList = (isRequired: boolean, selectedModulId: number): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Predmeti/getrequiredpredmets/${selectedModulId}?isRequired=${isRequired}`).toPromise();
   }
 
@@ -88,7 +94,7 @@ export class StayStudentService{
 
 
   //Moduli
-  public getModulsList = (bulkId: string): Promise<any> => {
+  public getModulsList = (): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Moduli/getallmoduls`).toPromise();
   }
   
@@ -106,7 +112,7 @@ export class StayStudentService{
 
 
   //Sifrarnik
-  public getSifrarnikList = (bulkId: string): Promise<any> => {
+  public getSifrarnikList = (): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Sifrarnik/getallsifrarniks`).toPromise();
   }
 
@@ -123,8 +129,12 @@ export class StayStudentService{
   }
 
   //Uloge
-  public getRoleList = (bulkId: string): Promise<any> => {
+  public getRoleList = (): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Uloge/getallulogas`).toPromise();
+  }
+
+  public getRolebyUserId = (id: number): Promise<any> => {
+    return this.httpClient.get(`${this.apiBaseUrl}api/Uloge/getulogabyuserid/${id}`).toPromise();
   }
 
   public addRole = (item: Uloge): Promise<any> => {

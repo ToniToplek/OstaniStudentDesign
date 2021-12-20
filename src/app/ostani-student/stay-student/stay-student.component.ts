@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OstaniStudentDto } from 'src/app/models/ostani-student-dto.model';
 import { element } from 'protractor';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class StayStudentComponent implements OnInit {
 
-  blukId: string = "";
+  bulkId: string = "";
   userData: Korisnici;
   summerPredmets: Predmeti[] = [];
   winterPredmets: Predmeti[] = [];
@@ -47,13 +47,14 @@ export class StayStudentComponent implements OnInit {
   constructor(
     private service: StayStudentService,
     private toastr: ToastrService,
+    private router: Router,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.routerSubscription = this.route.paramMap.subscribe(params => {
       if (params.get('id')) {
-        this.blukId = params.get('id');
+        this.bulkId = params.get('id');
         this.getUserData();
       }
     })
@@ -61,7 +62,7 @@ export class StayStudentComponent implements OnInit {
   }
 
   getPredemtsFirstChoice(){
-    this.service.getRequiredPredmetsList(this.blukId, false, this.selectedModul.id).then(data => {
+    this.service.getRequiredPredmetsList(false, this.selectedModul.id).then(data => {
       if(data){
         data.forEach(element => {
           if(element.jeZimski == true){
@@ -75,7 +76,7 @@ export class StayStudentComponent implements OnInit {
   }
 
   getRequiredPredemtsFirstChoice(){
-    this.service.getRequiredPredmetsList(this.blukId, true, this.selectedModul.id).then(data => {
+    this.service.getRequiredPredmetsList(true, this.selectedModul.id).then(data => {
       if(data){
         data.forEach(element => {
           if(element.jeZimski == true){
@@ -89,7 +90,7 @@ export class StayStudentComponent implements OnInit {
   }
 
   getPredemtsSecondChoice(){
-    this.service.getRequiredPredmetsList(this.blukId, false, this.selectedModul.id).then(data => {
+    this.service.getRequiredPredmetsList(false, this.selectedModul.id).then(data => {
       if(data){
         data.forEach(element => {
           if(element.jeZimski == true){
@@ -103,7 +104,7 @@ export class StayStudentComponent implements OnInit {
   }
 
   getRequiredPredemtsSecondChoice(){
-    this.service.getRequiredPredmetsList(this.blukId, true, this.selectedModul.id).then(data => {
+    this.service.getRequiredPredmetsList(true, this.selectedModul.id).then(data => {
       if(data){
         data.forEach(element => {
           if(element.jeZimski == true){
@@ -117,15 +118,21 @@ export class StayStudentComponent implements OnInit {
   }
 
   getModuls(){
-    this.service.getModulsList(this.blukId).then(data => {
+    this.service.getModulsList().then(data => {
       this.moduls = data;
     });
   }
-
+  
   getUserData(){
-    this.service.getUserDataByBulkId(this.blukId).then(data => {
+    this.service.getUserDataByBulkId(this.bulkId).then(data => {
       this.userData = data;
     });
+  }
+
+
+  onLogout(){
+    localStorage.removeItem('token');
+    this.router.navigate([''])
   }
 
   dropSummer(event: CdkDragDrop<string[]>, bool: boolean) {

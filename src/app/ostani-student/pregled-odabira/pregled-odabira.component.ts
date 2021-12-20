@@ -53,7 +53,7 @@ export class PregledOdabiraComponent implements OnInit {
   }
 
   getUsers(){
-    this.service.getUserChoiceList(this.blukId).then(data => {
+    this.service.getUserChoiceList().then(data => {
       this.korisnici = data;
       
       let rppPrvi = 0;

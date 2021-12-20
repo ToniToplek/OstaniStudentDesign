@@ -33,7 +33,7 @@ export class UlogeComponent implements OnInit {
   }
   
   getRoles(){
-    this.service.getRoleList(this.blukId).then(data => {
+    this.service.getRoleList().then(data => {
       this.uloge = data;
     });
   }

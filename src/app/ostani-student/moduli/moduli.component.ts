@@ -33,7 +33,7 @@ export class ModuliComponent implements OnInit {
   }
   
   getModuls(){
-    this.service.getModulsList(this.blukId).then(data => {
+    this.service.getModulsList().then(data => {
       this.moduli = data;
     });
   }

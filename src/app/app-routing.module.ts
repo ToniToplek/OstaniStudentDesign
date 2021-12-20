@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { KorisniciComponent } from './ostani-student/korisnici/korisnici.component';
 import { ModuliComponent } from './ostani-student/moduli/moduli.component';
@@ -11,13 +12,13 @@ import { UlogeComponent } from './ostani-student/uloge/uloge.component';
 
 const routes: Routes = [
   { path: '', component:  LoginComponent},
-  { path: 'home/:id', component:  StayStudentComponent},
-  { path: 'pregledOdabira', component:  PregledOdabiraComponent},
-  { path: 'predmeti', component:  PredmetiComponent},
-  { path: 'korisnici', component:  KorisniciComponent},
-  { path: 'moduli', component:  ModuliComponent},
-  { path: 'sifrarnik', component:  SifrarnikComponent},
-  { path: 'uloge', component:  UlogeComponent},
+  { path: 'home/:id', component:  StayStudentComponent, canActivate:[AuthGuard]},
+  { path: 'pregledOdabira/:id', component:  PregledOdabiraComponent, canActivate:[AuthGuard]},
+  { path: 'predmeti/:id', component:  PredmetiComponent, canActivate:[AuthGuard]},
+  { path: 'korisnici/:id', component:  KorisniciComponent, canActivate:[AuthGuard]},
+  { path: 'moduli/:id', component:  ModuliComponent, canActivate:[AuthGuard]},
+  { path: 'sifrarnik/:id', component:  SifrarnikComponent, canActivate:[AuthGuard]},
+  { path: 'uloge/:id', component:  UlogeComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({

@@ -34,7 +34,7 @@ export class SifrarnikComponent implements OnInit {
   }
   
   getSifrarnik(){
-    this.service.getSifrarnikList(this.blukId).then(data => {
+    this.service.getSifrarnikList().then(data => {
       this.sifrarnik = data;
     });
   }

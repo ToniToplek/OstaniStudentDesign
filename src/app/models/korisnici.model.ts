@@ -14,7 +14,7 @@ export class Korisnici{
     public korisniciUloges: KorisniciUloge[];
     public korisnikZeljeniModuls: KorisnikZeljeniModul[];
 
-    constructor(id : number = 0,  ime : string = '',  prezime : string = '',  lozinka : string = '',  email : string = '',  jmbag : string = '', bulkId : string = null, korisniciPredmetis: KorisniciPredmeti[] = null, korisniciUloges: KorisniciUloge[] = null, korisnikZeljeniModuls: KorisnikZeljeniModul[] = null) {  
+    constructor(id : number = 0,  ime : string = '',  prezime : string = '',  lozinka : string = '',  email : string = '',  jmbag : string = '', bulkId : string = null, korisniciPredmetis: KorisniciPredmeti[] = [], korisniciUloges: KorisniciUloge[] = [], korisnikZeljeniModuls: KorisnikZeljeniModul[] = []) {  
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;

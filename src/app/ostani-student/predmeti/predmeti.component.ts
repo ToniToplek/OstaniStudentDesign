@@ -39,13 +39,13 @@ export class PredmetiComponent implements OnInit {
   }
 
   getSubjects(){
-    this.service.getPredmetsList(this.blukId).then(data => {
+    this.service.getPredmetsList().then(data => {
       this.predmeti = data;
     });
-    this.service.getModulsList(this.blukId).then(data => {
+    this.service.getModulsList().then(data => {
       this.moduli = data;
     });
-    this.service.getSifrarnikList(this.blukId).then(data => {
+    this.service.getSifrarnikList().then(data => {
       this.sifrarnik = data;
     });
   }

@@ -37,13 +37,13 @@ export class KorisniciComponent implements OnInit {
   }
 
   getUsers(){
-    this.service.getUsersList(this.blukId).then(data => {
+    this.service.getUsersList().then(data => {
       this.korisnici = data;
     });
   }
 
   getRoles(){
-    this.service.getRoleList(this.blukId).then(data => {
+    this.service.getRoleList().then(data => {
       this.uloge = data;
     });
   }

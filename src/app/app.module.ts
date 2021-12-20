@@ -4,7 +4,7 @@ import { DevExtremeModule } from 'devextreme-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StayStudentComponent } from './ostani-student/stay-student/stay-student.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SideNavComponent } from './ostani-student/side-nav/side-nav.component';
 import { KorisniciComponent } from './ostani-student/korisnici/korisnici.component';
 import { PredmetiComponent } from './ostani-student/predmeti/predmeti.component';
@@ -18,6 +18,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { PregledOdabiraComponent } from './ostani-student/pregled-odabira/pregled-odabira.component';
+import { StayStudentService } from './service/stay-student.service';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,11 @@ import { PregledOdabiraComponent } from './ostani-student/pregled-odabira/pregle
     NgbModule,
     ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [StayStudentService,{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
