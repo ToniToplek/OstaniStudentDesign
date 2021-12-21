@@ -14,6 +14,7 @@ export class SideNavComponent implements OnInit {
   status: boolean = false;
   bulkId: string = '';
   routerSubscription: any;
+  role: string = '';
 
   constructor(
     private service: StayStudentService,
@@ -26,6 +27,9 @@ export class SideNavComponent implements OnInit {
     this.routerSubscription = this.route.paramMap.subscribe(params => {
       if (params.get('id')) {
         this.bulkId = params.get('id');
+        this.service.getRolebyUserBulkId(this.bulkId).then(data => {
+          this.role = data.naziv;
+        });
       }
     })
   }
@@ -40,7 +44,7 @@ export class SideNavComponent implements OnInit {
 
   onLogout(){
     localStorage.removeItem('token');
-    this.router.navigate(['']);
+    this.router.navigate(['login']);
     this.toastr.success("Uspješna odjava");
   }
 }

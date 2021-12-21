@@ -1,0 +1,14 @@
+.btn{
+  height: 50px;
+  font-weight: 600;
+  border: solid 2px #2064a0;
+}
+
+
+.btnLogout{
+    height: 40px;
+    font-weight: 600;
+    border: black;
+    color:#f8f9fa;
+}
+

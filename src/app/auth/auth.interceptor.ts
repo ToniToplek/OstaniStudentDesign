@@ -1,15 +1,17 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators"
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor{
 
-    constructor(private router: Router){
-
-    }
+    constructor(
+        private router: Router,
+        private toastr: ToastrService,
+        ){}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
         if(localStorage.getItem('token') != null){
@@ -20,9 +22,11 @@ export class AuthInterceptor implements HttpInterceptor{
                 tap(
                     succ => {},
                     err => {
-                        if(err.status = 401){
+                        if(err.status == 401){
                             localStorage.removeItem('token')
                             this.router.navigateByUrl('');
+                        }else if(err.statis == 403){
+                            this.toastr.error("Nemate prava za odabranu akciju!")
                         }
                     }
                 )

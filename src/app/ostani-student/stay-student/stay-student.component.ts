@@ -132,7 +132,7 @@ export class StayStudentComponent implements OnInit {
 
   onLogout(){
     localStorage.removeItem('token');
-    this.router.navigate([''])
+    this.router.navigate(['login'])
   }
 
   dropSummer(event: CdkDragDrop<string[]>, bool: boolean) {
@@ -218,8 +218,12 @@ export class StayStudentComponent implements OnInit {
   }
 
   cancelModul(){
-    this.selectedModuls = [];
-    this.getModuls();
+    if(this.selectedModuls.length > 0){
+      this.selectedModuls = [];
+      this.getModuls();
+    }else{
+      this.router.navigate(['home',this.bulkId])
+    }
   }
 
   selectModuls(){

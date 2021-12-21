@@ -1,0 +1,82 @@
+
+<div class="row">
+    <h1 class="mb-0 f-25 font-weight-bold py-3 text-center header" style="color: #f8f9fa;">Ostani student</h1>
+  </div>
+  
+  <div class="row py-3" style="background-color: #173753; color: #f8f9fa;">
+    <div class="col-1"></div>
+    <h4 class="col-10 text-center mt-2">{{userData?.ime + " " + userData?.prezime + " (" + userData?.jmbag + ")"}}</h4>
+    <div class="col-1">
+      <button class="btn btnLogout btn-danger" (click)="onLogout()">Odjava</button>
+  </div>
+  
+</div>
+
+<h1 class="mb-0 f-25 pt-4 text-center">Dobrodošli na stranicu Ostani student</h1>
+
+<div class="row pt-4">
+  <div class="col-3"></div>
+  <div  class="col-6">
+    <h4 style="text-align: left; font-weight: 400;" > Ostani student je aplikacija koja omogućuje studentima rangiranje 
+      modula i izbornih predmeta po njihovim preferencijama te na 
+      temelju njihovog odabira izrađuju se rang liste za upis u višu godinu studija. </h4>
+  </div>
+  <div class="col-3"></div>
+</div>
+<div class="row pt-3">
+  <div class="col-3"></div>
+  <div  class="col-6">
+    <h2 style="text-align: left;">Postupak rangiranja: </h2>
+  </div>
+  <div class="col-3"></div>
+</div>
+
+<div class="row pt-2">
+  <div class="col-4"></div>
+  <div  class="col-5">
+    <h3 style="text-align: left; font-weight: 400;" ><b>1.</b> Student rangira module po želji na način da ih prebaci iz tablice s popisom modula u tablicu za rangiranje te ih poreda po želji. 
+      Nakon rangiranja potvrđuje svoj odabir pritiskom na gumb "Odaberi modul."</h3>
+  </div>
+  <div class="col-3"></div>
+</div>
+
+<div class="row pt-2">
+  <div class="col-4"></div>
+  <div class="col-5">
+    <img src="assets/select_modul.png" alt="image" > 
+  </div>
+  <div class="col-3"></div>
+</div>
+
+<div class="row pt-2">
+  <div class="col-4"></div>
+  <div  class="col-5">
+    <h3 style="text-align: left; font-weight: 400;" ><b>2.</b> Rangiranjem modula otvara se modal za rangiranje izbornih predmeta za prvorangirani modul. 
+      Istim postupkom kao u prijašnjem koraku student rangira <b>sve</b> ponuđene izborne predmete za oba semestra. Potvrđuje svoj izbor pritiskom na gumb "Potvrdi prvi izbor"</h3>
+  </div>
+  <div class="col-3"></div>
+</div>
+<div class="row pt-2">
+  <div class="col-4"></div>
+  <div  class="col-5">
+    <h3 style="text-align: left; font-weight: 400;" ><b>3.</b> Nakon potvrde prvog izbora student ponavlja isti postupak za drugi izbor. </h3>
+  </div>
+  <div class="col-3"></div>
+</div>
+
+<div class="row pt-3">
+  <div class="col-4"></div>
+  <div  class="col-5">
+    <h3 style="text-align: left; font-weight: 400;" ><b>NAPOMENA:</b> Podaci se u bazu podataka spremaju tek nakon obavljanja cijelog postupka rangiranja odnosno nakon potvrde odabira drugog izbora. </h3>
+  </div>
+  <div class="col-3"></div>
+</div>
+
+
+<div class="row py-4">
+  <div class="col-3"></div>
+  <div class="col-6">
+    <button type="button" style="width: 30%;" class="btn btn-primary" (click)="goOnSelect()">Započni rangiranje</button>
+  </div>
+  <div class="col-3"></div>
+</div>

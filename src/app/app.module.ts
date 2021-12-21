@@ -20,6 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { PregledOdabiraComponent } from './ostani-student/pregled-odabira/pregled-odabira.component';
 import { StayStudentService } from './service/stay-student.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { StudentHomeComponent } from './ostani-student/student-home/student-home.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     UlogeComponent,
     LoginComponent,
     PregledOdabiraComponent,
+    StudentHomeComponent,
   ],
   imports: [
     BrowserModule,
