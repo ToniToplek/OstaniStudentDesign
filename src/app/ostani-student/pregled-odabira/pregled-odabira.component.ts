@@ -215,6 +215,23 @@ export class PregledOdabiraComponent implements OnInit {
     e.cancel = true; 
   }
 
+  onExcelClick = () => {
+    this.service.getExcelExport().then(data => {
+      var fileName = 'Ostani_student'+'.xlsx'; 
+      this.downloadExcel(data, fileName)
+    });
+  }
+
+  downloadExcel = (data: any, fileName?: string) => {    
+    const file = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const fileURL = window.URL.createObjectURL(file);
+    var fileLink = document.createElement('a');
+    fileLink.href = fileURL;     
+    fileLink.download = fileName;
+    fileLink.click();
+  }
+
+
   getModulName(data: any){
     if(data.modul){
       return data.modul + " (" +  data.kratica +")"

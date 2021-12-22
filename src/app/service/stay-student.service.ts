@@ -42,8 +42,20 @@ export class StayStudentService{
     return this.httpClient.get<KorisniciZeljeniModuliDto[]>(`${this.apiBaseUrl}api/Korisnici/getalluserschoice`).toPromise();
   }
 
+  public getUserModulChoice = (id: number): Promise<KorisniciZeljeniModuliDto> => {
+    return this.httpClient.get<KorisniciZeljeniModuliDto>(`${this.apiBaseUrl}api/Korisnici/getusersmodulchoice/${id}`).toPromise();
+  }
+
   public getUserChoicePredmets = (korisnikId: number, odabir: number): Promise<any> => {
     return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getalluserssubjectchoice/${odabir}/${korisnikId}`).toPromise();
+  }
+
+  public isUserAlreadyChoice = (bulkId: string): Promise<any> => {
+    return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/getuserchoice/${bulkId}`).toPromise();
+  }
+
+  public getExcelExport = async (): Promise<any> => {
+    return this.httpClient.get(`${this.apiBaseUrl}api/Korisnici/excel`, { responseType: 'blob'}).toPromise();
   }
 
   public getUserDataByBulkId = (bulkId: string): Promise<any> => {

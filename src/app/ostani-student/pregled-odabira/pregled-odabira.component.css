@@ -5,3 +5,8 @@
 .modal {
     overflow-y:auto;
 }
+
+.btn-light{
+    background-color: rgb(201, 201, 201);
+    color: #333;
+}

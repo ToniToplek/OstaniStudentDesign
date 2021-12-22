@@ -39,6 +39,7 @@ export class StayStudentComponent implements OnInit {
   isSummerSubjectSecondChoiceVisible: boolean = false;
   requiredSummerSubjectsFirstChoice: Predmeti[] = [];
   requiredSummerSubjectsSecondChoice: Predmeti[] = [];
+  isUserAlreadyChoice: boolean = false;
 
   model: OstaniStudentDto[] = [];
 
@@ -56,9 +57,16 @@ export class StayStudentComponent implements OnInit {
       if (params.get('id')) {
         this.bulkId = params.get('id');
         this.getUserData();
+        this.isUserAlrdyChoice();
       }
     })
     this.getModuls();
+  }
+
+  isUserAlrdyChoice(){
+    this.service.isUserAlreadyChoice(this.bulkId).then(data => {
+      this.isUserAlreadyChoice = data;
+    });
   }
 
   getPredemtsFirstChoice(){
@@ -299,6 +307,7 @@ export class StayStudentComponent implements OnInit {
       this.toastr.success('Uspješno ste spremili svoj odabir!');
       this.isWinterSubjectSecondChoiceVisible = false;
       this.isModulSelected = false;
+      this.router.navigate(['home',this.bulkId]);
     });
 
   }

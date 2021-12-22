@@ -15,6 +15,7 @@ export class StudentHomeComponent implements OnInit {
   routerSubscription: Subscription;
   bulkId: string = "";
   userData: Korisnici;
+  isUserAlreadyChoice: boolean = false;
 
   constructor(
     private service: StayStudentService,
@@ -30,6 +31,7 @@ export class StudentHomeComponent implements OnInit {
       if (params.get('id')) {
         this.bulkId = params.get('id');
         this.getUserData();
+        this.isUserAlrdyChoice();
       }
     })
   }
@@ -40,6 +42,12 @@ export class StudentHomeComponent implements OnInit {
     });
   }
 
+  isUserAlrdyChoice(){
+    this.service.isUserAlreadyChoice(this.bulkId).then(data => {
+      this.isUserAlreadyChoice = data;
+    });
+  }
+
   onLogout(){
     localStorage.removeItem('token');
     this.router.navigate(['login'])
@@ -47,6 +55,10 @@ export class StudentHomeComponent implements OnInit {
 
   goOnSelect(){
     this.router.navigate(['select',this.bulkId])
+  }
+
+  goOnReview(){
+    this.router.navigate(['review',this.bulkId])
   }
 
 

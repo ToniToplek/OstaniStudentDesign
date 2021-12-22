@@ -9,11 +9,14 @@ import { PregledOdabiraComponent } from './ostani-student/pregled-odabira/pregle
 import { SifrarnikComponent } from './ostani-student/sifrarnik/sifrarnik.component';
 import { StayStudentComponent } from './ostani-student/stay-student/stay-student.component';
 import { StudentHomeComponent } from './ostani-student/student-home/student-home.component';
+import { StudentReviewComponent } from './ostani-student/student-review/student-review.component';
 import { UlogeComponent } from './ostani-student/uloge/uloge.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: 'login', component:  LoginComponent},
   { path: 'home/:id', component:  StudentHomeComponent, canActivate:[AuthGuard], data:{permittedRoles:['Admin','Korisnik']}},
+  { path: 'review/:id', component:  StudentReviewComponent, canActivate:[AuthGuard], data:{permittedRoles:['Admin','Korisnik']}},
   { path: 'select/:id', component:  StayStudentComponent, canActivate:[AuthGuard], data:{permittedRoles:['Admin','Korisnik']}},
   { path: 'pregledOdabira/:id', component:  PregledOdabiraComponent, canActivate:[AuthGuard], data:{permittedRoles:['Admin','Moderator']}},
   { path: 'predmeti/:id', component:  PredmetiComponent, canActivate:[AuthGuard], data:{permittedRoles:['Admin','Moderator']}},

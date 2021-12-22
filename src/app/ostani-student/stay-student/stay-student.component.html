@@ -1,15 +1,13 @@
-
 <div class="row">
   <h1 class="mb-0 f-25 font-weight-bold py-3 text-center header" style="color: #f8f9fa;">Ostani student</h1>
 </div>
 
 <div class="row py-3" style="background-color: #173753; color: #f8f9fa;">
-  <div class="col-1"></div>
-  <h4 class="col-10 text-center mt-2">{{userData?.ime + " " + userData?.prezime + " (" + userData?.jmbag + ")"}}</h4>
-  <div class="col-1">
+  <div class="col-3"></div>
+  <h4 class="col-6 text-center mt-2">{{userData?.ime + " " + userData?.prezime + " (" + userData?.jmbag + ")"}}</h4>
+  <div class="col-2" style="text-align: right;">
     <button class="btn btnLogout btn-danger" (click)="onLogout()">Odjava</button>
   </div>
-
 </div>
 
 <div *ngIf="!isModulSelected" class="text-center mt-4">
@@ -190,7 +188,7 @@
 
 <div *ngIf="isWinterSubjectSecondChoiceVisible" class="text-center mt-5">
   <div class="table">
-    <h3>Izborni predmeti</h3>
+    <h3>Izborni predmeti zimski semestar</h3>
     <div
       id="allWinterSubjects"
       cdkDropList

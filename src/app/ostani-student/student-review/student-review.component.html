@@ -1,0 +1,147 @@
+<div class="row">
+    <h1 class="mb-0 f-25 font-weight-bold py-3 text-center header" style="color: #f8f9fa;">Ostani student</h1>
+  </div>
+  
+    <div class="row py-3" style="background-color: #173753; color: #f8f9fa;">
+    <div class="col-3"></div>
+    <h4 class="col-6 text-center mt-2">{{userData?.ime + " " + userData?.prezime + " (" + userData?.jmbag + ")"}}</h4>
+    <div class="col-2" style="text-align: right;">
+      <button class="btn btnLogout btn-danger" (click)="onLogout()">Odjava</button>
+    </div>
+</div>
+<div class="mt-3" style="text-align: center; margin-bottom: -10px;">
+    *Pritiskom na gumb "Ponovi rangiranje" moguće je ponoviti postupak rangiranja čijim će se spremanjem obrisati trenutni odabir. 
+</div>
+
+<div class="modal-dialog" style="max-width: 800px !important;">
+    <div class="modal-content">
+    <div class="modal-body" >
+        <div class="card-body">
+            <form>
+            <h3 class="mb-4" style="text-align: center;">Prvi izbor</h3>
+            <h4 style="float: left;">Modul: &nbsp;</h4>
+            <h4 style="font-weight: 400;">{{selectedModulNameFirst}}</h4>
+            <h4>Zimski semestar</h4>
+            <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="winter" [showBorders]="false"
+                [rowAlternationEnabled]="true" [remoteOperations]="true" >
+                <dxo-paging [enabled]="true"></dxo-paging>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+
+                <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc" caption="Izbor" dataType="string">
+                </dxi-column>
+
+                <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                </dxi-column>
+        
+                <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                </dxi-column>
+
+                <div *dxTemplate="let d of 'cellTemplateModul'">
+                    {{getModulName(d.row.data)}}
+                </div>
+        
+                <dxo-paging [pageSize]="3"> </dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
+            </dx-data-grid>
+            <div style="margin-top: 30px;">
+                <h4>Ljetni semestar</h4>
+            </div>
+            <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="summer" [showBorders]="false"
+                [rowAlternationEnabled]="true" [remoteOperations]="true">
+                <dxo-paging [enabled]="true"></dxo-paging>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+
+                <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc"  caption="Izbor" dataType="string">
+                </dxi-column>
+
+                <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                </dxi-column>
+        
+                <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                </dxi-column>
+            
+                <div *dxTemplate="let d of 'cellTemplateModul'">
+                    {{getModulName(d.row.data)}}
+                </div>
+
+                <dxo-paging [pageSize]="3"> </dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
+            </dx-data-grid>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<div class="modal-dialog" style="max-width: 800px !important;">
+    <div class="modal-content">
+    <div class="modal-body">
+        <div class="card-body">
+            <form>
+            <h3 class="mb-4" style="text-align: center;">Drugi izbor</h3>
+            <h4 style="float: left;">Modul: &nbsp;</h4>
+            <h4 style="font-weight: 400;">{{selectedModulNameSecond}}</h4>
+            <h4>Zimski semestar</h4>
+            <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="winterSecond" [showBorders]="false"
+                [rowAlternationEnabled]="true" [remoteOperations]="true">
+                <dxo-paging [enabled]="true"></dxo-paging>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+
+                <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc" caption="Izbor" dataType="string">
+                </dxi-column>
+
+                <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                </dxi-column>
+        
+                <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                </dxi-column>
+
+                <div *dxTemplate="let d of 'cellTemplateModul'">
+                    {{getModulName(d.row.data)}}
+                </div>
+        
+                <dxo-paging [pageSize]="3"> </dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
+            </dx-data-grid>
+            <div style="margin-top: 30px;">
+                <h4>Ljetni semestar</h4>
+            </div>
+            <dx-data-grid class="DxGrid" id="gridContainer" [dataSource]="summerSecond" [showBorders]="false"
+                [rowAlternationEnabled]="true" [remoteOperations]="true">
+                <dxo-paging [enabled]="true"></dxo-paging>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+
+                <dxi-column dataField="brojIzbora" width="70px" sortOrder="asc"  caption="Izbor" dataType="string">
+                </dxi-column>
+
+                <dxi-column dataField="naziv" caption="Predmet" dataType="string">
+                </dxi-column>
+        
+                <dxi-column dataField="modul" caption="Modul" cellTemplate="cellTemplateModul" dataType="string">
+                </dxi-column>
+            
+
+                <div *dxTemplate="let d of 'cellTemplateModul'">
+                    {{getModulName(d.row.data)}}
+                </div>
+
+                <dxo-paging [pageSize]="3"> </dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[3, 9, 15]"></dxo-pager>
+            </dx-data-grid>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="row pb-4">
+    <div>
+        <button type="button" style="width: 100px;" class="btn btn-neutral" (click)="cancel()">Odustani</button>
+      <button type="button" style="width: 220px;" class="btn btn-primary" (click)="goOnRedo()">Ponovi rangiranje</button>
+    </div>
+</div>

@@ -21,6 +21,7 @@ import { PregledOdabiraComponent } from './ostani-student/pregled-odabira/pregle
 import { StayStudentService } from './service/stay-student.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { StudentHomeComponent } from './ostani-student/student-home/student-home.component';
+import { StudentReviewComponent } from './ostani-student/student-review/student-review.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { StudentHomeComponent } from './ostani-student/student-home/student-home
     LoginComponent,
     PregledOdabiraComponent,
     StudentHomeComponent,
+    StudentReviewComponent,
   ],
   imports: [
     BrowserModule,
